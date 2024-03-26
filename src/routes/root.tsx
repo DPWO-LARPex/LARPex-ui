@@ -1,7 +1,9 @@
+import { Navbar } from '@/components/Navbar'
+
 function Root() {
 	return (
 		<>
-			<button className="btn btn-primary">test</button>
+			<Navbar />
 		</>
 	)
 }
