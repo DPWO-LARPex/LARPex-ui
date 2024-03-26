@@ -3,7 +3,7 @@ import { Link, NavLink, Outlet } from 'react-router-dom'
 
 export const Navbar = () => {
 	return (
-		<>
+		<div className="container mx-auto">
 			<div className="navbar bg-base-100">
 				<div className="navbar-start">
 					<div className="dropdown">
@@ -41,10 +41,10 @@ export const Navbar = () => {
 							</li>
 						</ul>
 					</div>
-					<a className="btn btn-ghost text-xl">[LOGO]</a>
-				</div>
-				<div className="navbar-center hidden lg:flex">
-					<ul className="menu menu-horizontal px-1">
+					<a className="btn btn-ghost text-xl">LARPex</a>
+					{/* </div>
+				<div className="navbar-center hidden lg:flex"> */}
+					<ul className="menu menu-horizontal px-1 hidden lg:flex">
 						<li>
 							<NavLink to={ROUTES.HOME}>Home</NavLink>
 						</li>
@@ -70,6 +70,6 @@ export const Navbar = () => {
 				</div>
 			</div>
 			<Outlet />
-		</>
+		</div>
 	)
 }
