@@ -14,6 +14,8 @@ import CartRoute from './routes/payments/cart.tsx'
 import AddressRoute from './routes/payments/address.tsx'
 import CardRoute from './routes/payments/card.tsx'
 import SummaryRoute from './routes/payments/summary.tsx'
+import { Navbar } from './components/Navbar.tsx'
+import { NotFound } from './NotFound.tsx'
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -32,17 +34,23 @@ const queryClient = new QueryClient({
 
 const router = createBrowserRouter([
 	{
-		path: '/',
-		element: <Root />,
-	},
-	{
-		path: '/payments',
-		element: <PaymentRoute />,
+		element: <Navbar />,
+		errorElement: <NotFound />,
 		children: [
-			{ path: '', element: <CartRoute /> },
-			{ path: 'address', element: <AddressRoute /> },
-			{ path: 'card', element: <CardRoute /> },
-			{ path: 'summary', element: <SummaryRoute /> },
+			{
+				path: '/',
+				element: <Root />,
+			},
+			{
+				path: '/payments',
+				element: <PaymentRoute />,
+				children: [
+					{ path: '', element: <CartRoute /> },
+					{ path: 'address', element: <AddressRoute /> },
+					{ path: 'card', element: <CardRoute /> },
+					{ path: 'summary', element: <SummaryRoute /> },
+				],
+			},
 		],
 	},
 ])

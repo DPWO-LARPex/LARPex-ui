@@ -1,11 +1,5 @@
-import { Navbar } from '@/components/Navbar'
-
 function Root() {
-	return (
-		<>
-			<Navbar />
-		</>
-	)
+	return <></>
 }
 
 export default Root
