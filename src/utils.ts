@@ -27,3 +27,10 @@ export function getIgnoredKey<T extends Record<string, unknown>>(key: T) {
 	const ignoreObject = { ignore: true }
 	return { ...ignoreObject, ...key }
 }
+
+export const formatCurrencyAmount = (value: number | undefined | null) =>
+	value !== undefined &&
+	value !== null &&
+	new Intl.NumberFormat('pl-PL', { style: 'currency', currency: 'PLN' }).format(
+		value,
+	)
