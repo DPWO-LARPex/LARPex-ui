@@ -1,9 +1,5 @@
 function Root() {
-	return (
-		<>
-			<button className="btn btn-primary">test</button>
-		</>
-	)
+	return <>root</>
 }
 
 export default Root
