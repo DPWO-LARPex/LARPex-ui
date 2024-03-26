@@ -1,17 +1,23 @@
 import * as React from 'react'
 
-type CartItem = { id: string; quantity: number; name: string; price: number }
-type AddressData = {
+export type CartItem = {
+	id: string
+	quantity: number
+	name: string
+	price: number
+}
+export type AddressData = {
 	city: string
 	street: string
 	zipCode: string
 	number: string
 }
-type CardData = {
+export type CardData = {
 	cardNumber: string
 	cardHolder: string
-	cardExpiry: string
-	cardCvc: string
+	cardMonth: string
+	cardYear: string
+	cardCvv: string
 }
 
 type Action =
@@ -20,9 +26,16 @@ type Action =
 	| { type: 'clearCart' }
 	| { type: 'setAddress'; payload: AddressData }
 	| { type: 'setCard'; payload: CardData }
+	| { type: 'setSuccess'; payload: boolean }
 
 type Dispatch = (action: Action) => void
-type State = { cart: CartItem[]; address: AddressData; card: CardData }
+export type State = {
+	cart: CartItem[]
+	address: AddressData
+	card: CardData
+	isSuccess: boolean | undefined
+}
+
 type CartProviderProps = { children: React.ReactNode }
 
 const CartStateContext = React.createContext<
@@ -66,13 +79,30 @@ function cartReducer(state: State, action: Action) {
 		case 'setCard': {
 			return { ...state, card: action.payload }
 		}
+		case 'setSuccess':
+			return { ...state, isSuccess: action.payload }
 	}
 }
 
 const initialState: State = {
-	cart: [] as CartItem[],
+	cart: [
+		{
+			// TODO: remove this hardcoded data
+			id: '1',
+			quantity: 1,
+			name: 'Larp game',
+			price: 9123,
+		},
+	] as CartItem[],
+	isSuccess: undefined,
 	address: { city: '', street: '', zipCode: '', number: '' },
-	card: { cardNumber: '', cardHolder: '', cardExpiry: '', cardCvc: '' },
+	card: {
+		cardNumber: '',
+		cardHolder: '',
+		cardMonth: '',
+		cardYear: '',
+		cardCvv: '',
+	},
 }
 
 function CartProvider({ children }: CartProviderProps) {

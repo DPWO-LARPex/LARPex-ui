@@ -1,21 +1,32 @@
-import { useCart } from '@/context/CartContext'
-import { Dispatch, SetStateAction, useState } from 'react'
+import Input from '@/components/Input'
+import { AddressData, useCart } from '@/context/CartContext'
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 
 export default function AddressRoute() {
-	const { state, dispatch } = useCart()
+	const { dispatch } = useCart()
 
-	const [city, setCity] = useState(state.address.city ?? '')
-	const [street, setStreet] = useState(state.address.street ?? '')
-	const [zipCode, setZipCode] = useState(state.address.zipCode ?? '')
-	const [number, setNumber] = useState(state.address.number ?? '')
+	const [address, setAddress] = useState<AddressData>({
+		city: '',
+		street: '',
+		zipCode: '',
+		number: '',
+	})
+
+	const { city, street, zipCode, number } = address
 
 	const handleNext = () => {
 		dispatch({
 			type: 'setAddress',
-			payload: { city, street, zipCode, number },
+			payload: address,
 		})
 	}
+
+	const handleCardChange =
+		(field: keyof AddressData) => (e: React.ChangeEvent<HTMLInputElement>) => {
+			const { value } = e.target
+			setAddress(prev => ({ ...prev, [field]: value }))
+		}
 
 	return (
 		<div className="w-100 p-5">
@@ -24,26 +35,34 @@ export default function AddressRoute() {
 				<Input
 					label="City"
 					description="Insert city name"
-					value={city}
-					onChange={setCity}
+					inputProps={{
+						value: city,
+						onChange: handleCardChange('city'),
+					}}
 				/>
 				<Input
 					label="Street"
 					description="Insert street name"
-					value={street}
-					onChange={setStreet}
+					inputProps={{
+						value: street,
+						onChange: handleCardChange('street'),
+					}}
 				/>
 				<Input
 					label="Zip code"
 					description="Insert zip code"
-					value={zipCode}
-					onChange={setZipCode}
+					inputProps={{
+						value: zipCode,
+						onChange: handleCardChange('zipCode'),
+					}}
 				/>
 				<Input
 					label="Number"
 					description="Insert number"
-					value={number}
-					onChange={setNumber}
+					inputProps={{
+						value: number,
+						onChange: handleCardChange('number'),
+					}}
 				/>
 			</div>
 			<div className="flex justify-between pt-3">
@@ -58,34 +77,6 @@ export default function AddressRoute() {
 					Next
 				</Link>
 			</div>
-		</div>
-	)
-}
-
-const Input = ({
-	label,
-	description,
-	value,
-	onChange,
-}: {
-	label: string
-	description: string
-	value: string
-	onChange: Dispatch<SetStateAction<string>>
-}) => {
-	return (
-		<div className="w-full flex items-center gap-3">
-			<div className="flex flex-col min-w-36">
-				<span className="p-0 m-0 font-bold">{label}</span>
-				<span className="p-0 m-0 text-stone-500">{description}</span>
-			</div>
-			<input
-				type="text"
-				placeholder="Type here"
-				className="input input-bordered w-full max-w-xs"
-				value={value}
-				onChange={e => onChange(e.target.value)}
-			/>
 		</div>
 	)
 }

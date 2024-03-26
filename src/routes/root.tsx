@@ -1,5 +1,5 @@
 function Root() {
-	return <>root</>
+	return <></>
 }
 
 export default Root

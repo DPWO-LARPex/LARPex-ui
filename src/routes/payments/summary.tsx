@@ -1,11 +1,14 @@
+import { useCart } from '@/context/CartContext'
 import { Link } from 'react-router-dom'
-const SUCCESS_MOCK = true
 
 export default function SummaryRoute() {
+	const {
+		state: { isSuccess },
+	} = useCart()
 	return (
 		<div className="w-100 p-5">
 			<h2 className="text-3xl pb-3">Address</h2>
-			{SUCCESS_MOCK ? <Success /> : <Error />}
+			{isSuccess ? <Success /> : <Error />}
 		</div>
 	)
 }
@@ -57,7 +60,7 @@ const Error = () => {
 			</svg>
 
 			<span>Payment unsuccessful.</span>
-			<Link className="btn btn-primary" to="/payments">
+			<Link className="btn btn-primary" to="/payments/card">
 				Try again
 			</Link>
 		</div>
