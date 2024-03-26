@@ -30,7 +30,7 @@ export const exampleKey = (id: string) => ['example', id, 'test']
 import { exampleKey } from '@/model/exampleService.ts'
 
 const id = 123
-const exampleQuery = useQuery(exampleKey(id))
+const exampleQuery = useQuery({ queryKey: exampleKey(id) })
 ```
 
 nie trzeba pisać fetchy za każdym razem
