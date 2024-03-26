@@ -74,3 +74,14 @@ h6 {
 	isolation: isolate;
 	height: 100%;
 }
+
+.rootImg {
+	background: url('/background.png');
+	background-position: top;
+	background-repeat: no-repeat;
+	background-size: cover;
+	position: fixed;
+	height: 100%;
+	width: 100%;
+	z-index: -1;
+}

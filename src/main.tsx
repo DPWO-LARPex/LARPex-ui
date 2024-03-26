@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 
-import { RouterProvider, createBrowserRouter } from 'react-router-dom'
+import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom'
 import './index.css'
 
 import { generateUrlFromQueryKey, isKeyWithIgnore } from '@/utils'
@@ -14,8 +14,8 @@ import CartRoute from './routes/payments/cart.tsx'
 import AddressRoute from './routes/payments/address.tsx'
 import CardRoute from './routes/payments/card.tsx'
 import SummaryRoute from './routes/payments/summary.tsx'
-import { Navbar } from './components/Navbar.tsx'
 import { NotFound } from './NotFound.tsx'
+import Navbar from './components/Navbar.tsx'
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -32,9 +32,21 @@ const queryClient = new QueryClient({
 	},
 })
 
+const defaultLayout = (
+	<div className="container mx-auto h-screen w-screen">
+		<Outlet />
+	</div>
+)
+
+const navbarLayout = (
+	<div className="container mx-auto h-screen w-screen">
+		<Navbar />
+		<Outlet />
+	</div>
+)
+
 const router = createBrowserRouter([
 	{
-		element: <Navbar />,
 		errorElement: <NotFound />,
 		children: [
 			{
@@ -42,13 +54,26 @@ const router = createBrowserRouter([
 				element: <Root />,
 			},
 			{
-				path: '/payments',
-				element: <PaymentRoute />,
+				element: defaultLayout,
 				children: [
-					{ path: '', element: <CartRoute /> },
-					{ path: 'address', element: <AddressRoute /> },
-					{ path: 'card', element: <CardRoute /> },
-					{ path: 'summary', element: <SummaryRoute /> },
+					{
+						path: '/payments',
+						element: <PaymentRoute />,
+						children: [
+							{ path: '', element: <CartRoute /> },
+							{ path: 'address', element: <AddressRoute /> },
+							{ path: 'card', element: <CardRoute /> },
+							{ path: 'summary', element: <SummaryRoute /> },
+						],
+					},
+					//any empty path
+				],
+			},
+			{
+				element: navbarLayout,
+				errorElement: <NotFound />,
+				children: [
+					//any path that needs a navbar
 				],
 			},
 		],
