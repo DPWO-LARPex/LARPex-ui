@@ -40,8 +40,8 @@ export default function CardRoute() {
 			<h1 className="text-2xl">Płatność</h1>
 			<section className="flex-1 flex gap-6">
 				<section className="flex flex-col items-start gap-3 flex-1">
-					<div className="rounded-2xl border p-5 bg-green-200 flex flex-col gap-3">
-						<p className="font-bold">Karta płatnicza</p>
+					<div className="card bg-base-100 shadow-xl rounded-2xl p-5 flex flex-col gap-3">
+						<p className="card-title">Karta płatnicza</p>
 						<Input
 							label="Numer karty płatniczej"
 							description="Wprowadź 16 cyfrowy numer karty"
@@ -92,12 +92,14 @@ export default function CardRoute() {
 						</div>
 					</div>
 				</section>
-				<section className="flex-1 bg-white rounded-2xl border p-4 gap-3 flex flex-col">
-					<p className=" font-bold">Płatność</p>
-					<p>Metoda Płatności:</p>
-					<div className="h-[1px] w-full bg-slate-600" />
-					<p>Karta płatnicza</p>
-				</section>
+
+				<div className="card bg-base-100 shadow-xl flex-1">
+					<div className="card-body">
+						<h2 className="card-title">Metoda Płatności</h2>
+						<div className="h-[1px] w-full bg-slate-600" />
+						<p>Karta płatnicza</p>
+					</div>
+				</div>
 			</section>
 			<div className="w-full flex justify-between ">
 				<Link className="btn btn-ghost self-end" to="/payments/address">
