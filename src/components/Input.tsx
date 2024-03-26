@@ -6,7 +6,7 @@ type InputProps = {
 
 export default function Input({ label, description, inputProps }: InputProps) {
 	return (
-		<div className="w-full flex items-center justify-between gap-3">
+		<div className="w-full flex md:items-center justify-between gap-3 flex-col md:flex-row">
 			<Label label={label} description={description} />
 			<input
 				{...inputProps}

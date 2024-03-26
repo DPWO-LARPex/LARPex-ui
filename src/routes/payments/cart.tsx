@@ -45,13 +45,15 @@ export default function CartRoute() {
 						<div className="stat-value">{formatCurrencyAmount(sumOfCart)}</div>
 					</div>
 				</div>
+			</section>
+			<div className="self-end flex justify-between w-full">
 				<button className="btn btn-error" onClick={clearAllCart}>
 					Clear cart
-				</button>
-			</section>
-			<Link className="btn btn-primary self-end" to="address">
-				Dalej
-			</Link>
+				</button>{' '}
+				<Link className="btn btn-primary" to="address">
+					Dalej
+				</Link>
+			</div>
 		</article>
 	)
 }

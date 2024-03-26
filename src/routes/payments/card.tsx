@@ -38,7 +38,7 @@ export default function CardRoute() {
 	return (
 		<article className="w-full flex flex-col gap-3">
 			<h1 className="text-2xl">Płatność</h1>
-			<section className="flex-1 flex gap-6">
+			<section className="flex-1 flex gap-6 flex-col">
 				<section className="flex flex-col items-start gap-3 flex-1">
 					<div className="card bg-base-100 shadow-xl rounded-2xl p-5 flex flex-col gap-3">
 						<p className="card-title">Karta płatnicza</p>
@@ -58,29 +58,31 @@ export default function CardRoute() {
 								onChange: handleCardChange('cardHolder'),
 							}}
 						/>
-						<div className="flex w-full justify-between gap-4">
-							<div className="flex-1 flex items-center gap-2">
+						<div className="flex w-full justify-between gap-3 flex-col md:flex-row">
+							<div className="flex-1 flex md:items-center gap-2 md:flex-row flex-col">
 								<Label
 									label="Data ważności"
 									description="Wprowadź datę ważności karty"
 								/>
-								<input
-									type="number"
-									max={12}
-									value={cardMonth}
-									onChange={handleCardChange('cardMonth')}
-									className="input min-w-[64px] input-bordered w-full max-w-xs"
-								/>
-								/{' '}
-								<input
-									type="number"
-									max={99}
-									value={cardYear}
-									onChange={handleCardChange('cardYear')}
-									className="input min-w-[64px] input-bordered w-full max-w-xs"
-								/>
+								<div className="flex flex-row items-center">
+									<input
+										type="number"
+										max={12}
+										value={cardMonth}
+										onChange={handleCardChange('cardMonth')}
+										className="input min-w-[64px] input-bordered w-full max-w-xs"
+									/>
+									/{' '}
+									<input
+										type="number"
+										max={99}
+										value={cardYear}
+										onChange={handleCardChange('cardYear')}
+										className="input min-w-[64px] input-bordered w-full max-w-xs"
+									/>
+								</div>
 							</div>
-							<div className="flex gap-2">
+							<div className="flex gap-2 md:flex-row flex-col">
 								<Label label="CVV" description="Security code" />
 								<input
 									type="number"
