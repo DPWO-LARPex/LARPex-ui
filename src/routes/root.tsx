@@ -5,7 +5,7 @@ function Root() {
 	return (
 		<>
 			<div className="rootImg " />
-			<div className="container mx-auto">
+			<div className="container mx-auto text-white">
 				<Navbar />
 				<div className="h-[60rem] w-full flex flex-col bg-stone-950 bg-opacity-50 justify-center items-center gap-5">
 					<div className="h-[75%] xl:h-4/5 w-full flex flex-col justify-center items-start px-[10%] pt-20 gap-5">

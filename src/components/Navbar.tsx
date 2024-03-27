@@ -61,7 +61,7 @@ export default function Navbar() {
 				</ul>
 			</div>
 			<div className="navbar-end">
-				<Link to="/" className="btn bg-red-500 hover:bg-red-600">
+				<Link to="/" className="btn bg-red-500 hover:bg-red-600 text-white">
 					Book the game
 				</Link>
 
