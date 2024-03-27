@@ -6,6 +6,7 @@
 		"numberOfPlayers": "10",
 		"difficultyLevel": "2",
 		"status": "Ready",
+		"description": "Description 1",
 		"imageUrl": "https://image.jimcdn.com/app/cms/image/transf/dimension=2080x10000:format=jpg/path/s2217cd0bb1220415/image/i968752087e48ef2a/version/1694723212/greatest-medieval-battles.jpg"
 	},
 	{
@@ -15,6 +16,7 @@
 		"numberOfPlayers": "10",
 		"difficultyLevel": "3",
 		"status": "Proposition",
+		"description": "Description 2",
 		"imageUrl": "https://image.jimcdn.com/app/cms/image/transf/dimension=2080x10000:format=jpg/path/s2217cd0bb1220415/image/i968752087e48ef2a/version/1694723212/greatest-medieval-battles.jpg"
 	}
 ]

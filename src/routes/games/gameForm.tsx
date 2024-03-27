@@ -1,5 +1,6 @@
+/* eslint-disable prettier/prettier */
 import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
 import gamesData from './data.json'
 import { LuSwords } from 'react-icons/lu'
 
@@ -12,6 +13,7 @@ export default function GameForm() {
 		numberOfPlayers: string
 		difficultyLevel: string
 		status: string
+		description: string
 		imageUrl: string
 	}>(null)
 
@@ -25,69 +27,108 @@ export default function GameForm() {
 	// ...
 
 	return (
-		<div>
+		<div className="my-12">
 			<div style={{ backgroundColor: 'grey' }}>
 				{game?.imageUrl && <img src={game.imageUrl} alt="Game" />}
 			</div>
 
-			<form className="flex flex-col gap-4">
-				<label htmlFor="imageUrl">Image URL</label>
-				<input
-					id="imageUrl"
-					type="text"
-					value={game?.imageUrl || ''}
-					onChange={e => setGame({ ...game!, imageUrl: e.target.value })}
-				/>
-
-				<label htmlFor="title">Title</label>
-				<input
-					type="text"
-					id="title"
-					value={game?.title || ''}
-					onChange={e => setGame({ ...game!, title: e.target.value })}
-				/>
-
-				<label htmlFor="author">Author</label>
-				<input
-					type="text"
-					id="author"
-					value={game?.author || ''}
-					onChange={e => setGame({ ...game!, author: e.target.value })}
-				/>
-
-				<label htmlFor="players">Max. number of players</label>
-				<input
-					type="text"
-					id="players"
-					value={game?.numberOfPlayers || ''}
-					onChange={e => setGame({ ...game!, numberOfPlayers: e.target.value })}
-				/>
-
-				<label htmlFor="difficultyLevel">Difficulty level</label>
-				<div id="difficultyLevel" className="flex items-center">
-					{[1, 2, 3, 4, 5].map(level => (
-						<LuSwords
-							key={level}
-							aria-label={`Level ${level}`}
-							onClick={() => {
-								setGame({ ...game!, difficultyLevel: level.toString() })
-							}}
-							style={{
-								cursor: 'pointer',
-								color:
-									level <= parseInt(game?.difficultyLevel || '0')
-										? 'white'
-										: 'grey',
-							}}
-						/>
-					))}
+			<form className="flex flex-col gap-4 bg-stone-900 py-12 px-40">
+				<div className="form-control">
+					<label className="label">
+						<span className="label-text">Image URL</span>
+					</label>
+					<input
+						value={game?.imageUrl || ''}
+						onChange={e => setGame({ ...game!, imageUrl: e.target.value })}
+						className="input w-full bg-white text-black input-bordered focus:outline-offset-0"
+					/>
 				</div>
 
-				{/* Add more inputs as needed */}
+				<div className="flex justify-between">
+					<div className="w-1/2 pr-12">
+						<label className="label">
+							<span className="label-text">Game Title</span>
+						</label>
+						<input
+							value={game?.title || ''}
+							onChange={e => setGame({ ...game!, title: e.target.value })}
+							className="input w-full bg-white text-black input-bordered focus:outline-offset-0"
+						/>
+					</div>
 
-				<p>Status: {game?.status}</p>
+					<div className="w-1/2 pl-12">
+						<label className="label">
+							<span className="label-text">Author</span>
+						</label>
+						<input
+							value={game?.author || ''}
+							onChange={e => setGame({ ...game!, author: e.target.value })}
+							className="input w-full bg-white text-black input-bordered focus:outline-offset-0"
+						/>
+					</div>
+				</div>
 
-				<button type="submit">Submit</button>
+				<div className="flex justify-between">
+					<div className="w-1/2 pr-12">
+						<label className="label">
+							<span className="label-text">Max. number of players</span>
+						</label>
+						<input
+							value={game?.numberOfPlayers || ''}
+							onChange={e =>
+								setGame({ ...game!, numberOfPlayers: e.target.value })
+							}
+							className="input w-full bg-white text-black input-bordered focus:outline-offset-0"
+						/>
+					</div>
+
+					<div className="w-1/2 pl-12">
+						<label className="label">
+							<span className="label-text">Difficulty level</span>
+						</label>
+						<div id="difficultyLevel" className="flex items-center">
+							{[1, 2, 3, 4, 5].map(level => (
+								<LuSwords
+									key={level}
+									aria-label={`Level ${level}`}
+									onClick={() => {
+										setGame({ ...game!, difficultyLevel: level.toString() })
+									}}
+									style={{
+										cursor: 'pointer',
+										color:
+											level <= parseInt(game?.difficultyLevel || '0')
+												? 'white'
+												: 'grey',
+									}}
+									size={40}
+								/>
+							))}
+						</div>
+					</div>
+				</div>
+
+				<div>
+					<label className="label">
+						<span className="label-text">Description</span>
+					</label>
+					<textarea
+						value={game?.description || ''}
+						onChange={e => setGame({ ...game!, description: e.target.value })}
+						className="input w-full bg-white text-black input-bordered focus:outline-offset-0"
+					/>
+				</div>
+
+				{game?.status && <p>Status: {game.status}</p>}
+
+				<div className="flex justify-center">
+					<Link to="/avgames" className="mx-4">
+						<button className="btn">Cancel</button>
+					</Link>
+					<button type="submit" className="btn mx-4">
+						Submit
+					</button>
+				</div>
 			</form>
 		</div>
 	)
