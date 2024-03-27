@@ -57,10 +57,6 @@ const router = createBrowserRouter([
 				element: <Root />,
 			},
 			{
-				path: '/avGames',
-				element: <GamesRoute />,
-			},
-			{
 				element: emptyLayout,
 				children: [
 					{
@@ -80,7 +76,10 @@ const router = createBrowserRouter([
 				element: fullLayout,
 				errorElement: <NotFound />,
 				children: [
-					//any path that needs a navbar
+					{
+						path: '/avGames',
+						element: <GamesRoute />,
+					},
 				],
 			},
 		],
