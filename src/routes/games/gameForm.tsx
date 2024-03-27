@@ -17,14 +17,19 @@ export default function GameForm() {
 		imageUrl: string
 	}>(null)
 
+	const handleSubmit = (event: React.FormEvent) => {
+		event.preventDefault(); // Prevent the default form submit behavior to log the form data
+		const updatedGame = { ...game, status: 'Proposition' };
+		console.log('form sent', updatedGame);
+	}
+
+
 	useEffect(() => {
 		if (id) {
 			const foundGame = gamesData.find(game => game.id === Number(id))
 			setGame(foundGame || null)
 		}
 	}, [id])
-
-	// ...
 
 	return (
 		<div className="my-12 px-28 py-12">
@@ -36,7 +41,7 @@ export default function GameForm() {
 				)}
 			</div>
 
-			<form className="flex flex-col gap-4 bg-stone-900 py-12 px-40">
+			<form className="flex flex-col gap-4 bg-stone-900 py-12 px-40" onSubmit={handleSubmit}>
 				<div className="form-control">
 					<label className="label">
 						<span className="label-text">Image URL</span>
