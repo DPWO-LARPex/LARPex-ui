@@ -27,9 +27,13 @@ export default function GameForm() {
 	// ...
 
 	return (
-		<div className="my-12">
-			<div style={{ backgroundColor: 'grey' }}>
-				{game?.imageUrl && <img src={game.imageUrl} alt="Game" />}
+		<div className="my-12 px-28 py-12">
+			<div className="w-full h-64 bg-gray-200 flex items-center justify-center">
+				{game?.imageUrl ? (
+					<img src={game.imageUrl} alt="Game" className="object-cover h-full w-full" />
+				) : (
+					<p className="text-center text-gray-500">Enter a URL in the input field to display the corresponding image.</p>
+				)}
 			</div>
 
 			<form className="flex flex-col gap-4 bg-stone-900 py-12 px-40">
@@ -94,13 +98,7 @@ export default function GameForm() {
 									onClick={() => {
 										setGame({ ...game!, difficultyLevel: level.toString() })
 									}}
-									style={{
-										cursor: 'pointer',
-										color:
-											level <= parseInt(game?.difficultyLevel || '0')
-												? 'white'
-												: 'grey',
-									}}
+									className={`cursor-pointer hover:text-stone-200 ${level <= parseInt(game?.difficultyLevel || '0') ? 'text-white' : 'text-gray-500'}`}
 									size={40}
 								/>
 							))}
@@ -123,10 +121,10 @@ export default function GameForm() {
 
 				<div className="flex justify-center">
 					<Link to="/avgames" className="mx-4">
-						<button className="btn">Cancel</button>
+						<button className="btn bg-white text-black hover:bg-gray-500">Cancel</button>
 					</Link>
-					<button type="submit" className="btn mx-4">
-						Submit
+					<button type="submit" className="bg-red-600 hover:bg-red-800 text-white btn mx-4">
+						Save
 					</button>
 				</div>
 			</form>
