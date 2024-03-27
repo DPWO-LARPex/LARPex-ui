@@ -85,3 +85,18 @@ h6 {
 	width: 100%;
 	z-index: -1;
 }
+
+.rootMask {
+	clip-path: polygon(20% 0%, 100% 0%, 100% 100%, 0% 100%);
+}
+
+@media screen and (max-width: 768px) {
+	.rootMask {
+		clip-path: polygon(0 0%, 100% 27%, 100% 100%, 0% 100%);
+	}
+}
+
+/* active navbar link in react router */
+.navbar ul a.active {
+	@apply !bg-red-500;
+}

@@ -16,6 +16,7 @@ import CardRoute from './routes/payments/card.tsx'
 import SummaryRoute from './routes/payments/summary.tsx'
 import { NotFound } from './NotFound.tsx'
 import Navbar from './components/Navbar.tsx'
+import Footer from './components/Footer.tsx'
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -32,16 +33,17 @@ const queryClient = new QueryClient({
 	},
 })
 
-const defaultLayout = (
+const emptyLayout = (
 	<div className="container mx-auto h-screen w-screen">
 		<Outlet />
 	</div>
 )
 
-const navbarLayout = (
+const fullLayout = (
 	<div className="container mx-auto h-screen w-screen">
 		<Navbar />
 		<Outlet />
+		<Footer />
 	</div>
 )
 
@@ -54,7 +56,7 @@ const router = createBrowserRouter([
 				element: <Root />,
 			},
 			{
-				element: defaultLayout,
+				element: emptyLayout,
 				children: [
 					{
 						path: '/payments',
@@ -70,7 +72,7 @@ const router = createBrowserRouter([
 				],
 			},
 			{
-				element: navbarLayout,
+				element: fullLayout,
 				errorElement: <NotFound />,
 				children: [
 					//any path that needs a navbar

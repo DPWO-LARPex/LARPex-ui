@@ -1,9 +1,11 @@
 import { ROUTES } from '@/constants/routes'
+import { faCartShopping } from '@fortawesome/free-solid-svg-icons/faCartShopping'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { NavLink, Link } from 'react-router-dom'
 
 export default function Navbar() {
 	return (
-		<div className="navbar bg-stone-950 bg-opacity-90">
+		<div className="navbar bg-stone-950 bg-opacity-90 text-white">
 			<div className="navbar-start w-3/4">
 				<div className="dropdown">
 					<div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -59,12 +61,16 @@ export default function Navbar() {
 				</ul>
 			</div>
 			<div className="navbar-end">
-				<Link to="/" className="btn">
+				<Link to="/" className="btn bg-red-500 hover:bg-red-600">
 					Book the game
 				</Link>
 
 				<Link to="/payments" className="btn btn-ghost">
-					Cart
+					<FontAwesomeIcon
+						icon={faCartShopping}
+						size="xl"
+						className="text-white"
+					/>
 				</Link>
 			</div>
 		</div>
