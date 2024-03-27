@@ -17,6 +17,7 @@ import SummaryRoute from './routes/payments/summary.tsx'
 import { NotFound } from './NotFound.tsx'
 import Navbar from './components/Navbar.tsx'
 import Footer from './components/Footer.tsx'
+import GamesRoute from './routes/games/games.tsx'
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -54,6 +55,10 @@ const router = createBrowserRouter([
 			{
 				path: '/',
 				element: <Root />,
+			},
+			{
+				path: '/avGames',
+				element: <GamesRoute />,
 			},
 			{
 				element: emptyLayout,
