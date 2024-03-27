@@ -38,9 +38,9 @@ export default function CardRoute() {
 	return (
 		<article className="w-full flex flex-col gap-3">
 			<h1 className="text-2xl">Płatność</h1>
-			<section className="flex-1 flex gap-6 flex-col">
+			<section className="flex-1 flex gap-6 flex-col lg:flex-row">
 				<section className="flex flex-col items-start gap-3 flex-1">
-					<div className="card bg-base-100 shadow-xl rounded-2xl p-5 flex flex-col gap-3">
+					<div className="card w-full bg-base-100 shadow-xl rounded-2xl p-5 flex flex-col gap-3">
 						<p className="card-title">Karta płatnicza</p>
 						<Input
 							label="Numer karty płatniczej"
