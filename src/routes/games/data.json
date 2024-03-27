@@ -1,0 +1,20 @@
+[
+	{
+		"id": 1,
+		"title": "Game 1",
+		"author": "Author 1",
+		"numberOfPlayers": "10",
+		"difficultyLevel": "2",
+		"status": "Ready",
+		"imageUrl": "https://image.jimcdn.com/app/cms/image/transf/dimension=2080x10000:format=jpg/path/s2217cd0bb1220415/image/i968752087e48ef2a/version/1694723212/greatest-medieval-battles.jpg"
+	},
+	{
+		"id": 2,
+		"title": "Game 2",
+		"author": "Author 2",
+		"numberOfPlayers": "10",
+		"difficultyLevel": "3",
+		"status": "Proposition",
+		"imageUrl": "https://image.jimcdn.com/app/cms/image/transf/dimension=2080x10000:format=jpg/path/s2217cd0bb1220415/image/i968752087e48ef2a/version/1694723212/greatest-medieval-battles.jpg"
+	}
+]
