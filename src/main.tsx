@@ -18,6 +18,7 @@ import { NotFound } from './NotFound.tsx'
 import Navbar from './components/Navbar.tsx'
 import Footer from './components/Footer.tsx'
 import GamesRoute from './routes/games/games.tsx'
+import GameForm from './routes/games/gameForm.tsx'
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -76,10 +77,9 @@ const router = createBrowserRouter([
 				element: fullLayout,
 				errorElement: <NotFound />,
 				children: [
-					{
-						path: '/avGames',
-						element: <GamesRoute />,
-					},
+					{ path: '/avGames', element: <GamesRoute /> },
+					{ path: '/avGames/create', element: <GameForm /> },
+					{ path: '/avGames/edit/:id', element: <GameForm /> },
 				],
 			},
 		],
