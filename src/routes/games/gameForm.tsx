@@ -117,7 +117,14 @@ export default function GameForm() {
 					/>
 				</div>
 
-				{game?.status && <p>Status: {game.status}</p>}
+				{game?.status && game.status.trim() !== '' && (
+					<div className="flex items-center">
+						<p>Status: {game.status}</p>
+						<span
+							className={`ml-2 inline-block h-3 w-3 rounded-full mr-2 ${game.status === 'Ready' ? 'bg-green-500' : 'bg-orange-500'}`}
+						></span>
+					</div>
+				)}
 
 				<div className="flex justify-center">
 					<Link to="/avgames" className="mx-4">

@@ -29,7 +29,12 @@ export default function GamesRoute() {
 									/>
 								))}
 							</div>
-							<p>Status: {game.status}</p>
+							<div className="flex items-center">
+								<p>Status: {game.status}</p>
+								<span
+									className={`ml-2 inline-block h-3 w-3 rounded-full mr-2 ${game.status === 'Ready' ? 'bg-green-500' : 'bg-orange-500'}`}
+								></span>
+							</div>
 						</div>
 					</div>
 
