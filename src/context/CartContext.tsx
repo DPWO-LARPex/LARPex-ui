@@ -42,7 +42,7 @@ const CartStateContext = React.createContext<
 	{ state: State; dispatch: Dispatch } | undefined
 >(undefined)
 
-export function cartReducer(state: State, action: Action) {
+function cartReducer(state: State, action: Action) {
 	switch (action.type) {
 		case 'addToCart': {
 			const existingItem = state.cart.find(
