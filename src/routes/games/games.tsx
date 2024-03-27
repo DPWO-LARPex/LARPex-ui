@@ -1,5 +1,6 @@
 import gamesData from './data.json'
 import { Link } from 'react-router-dom'
+import { LuSwords } from 'react-icons/lu'
 
 export default function GamesRoute() {
 	return (
@@ -11,12 +12,22 @@ export default function GamesRoute() {
 			</Link>
 			{gamesData.map((game, index) => (
 				<div key={index} className="game flex my-4">
-					<div className="details w-1/4 p-4">
+					<div className="details w-1/4 p-4 bg-black">
 						<h2>{game.title}</h2>
-						<p>{game.author}</p>
-						<p>{game.numberOfPlayers}</p>
-						<p>{game.difficultyLevel}</p>
-						<p>{game.status}</p>
+						<p>Author: {game.author}</p>
+						<p>Max. number of players: {game.numberOfPlayers}</p>
+						<div className="flex items-center">
+							<p>Difficulty level:</p>
+							{[...Array(5)].map((_, i) => (
+								<LuSwords
+									key={i}
+									color={i < Number(game.difficultyLevel) ? 'white' : 'grey'}
+									size={20}
+								/>
+							))}
+						</div>
+
+						<p>Status: {game.status}</p>
 					</div>
 					<div className="image w-3/4 relative group">
 						<img
