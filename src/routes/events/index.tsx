@@ -18,9 +18,9 @@ export default function EventForm() {
 		queryKey: ['pay-api/payment-gateway'],
 	})
 	const [event, setEvent] = useState<EventPostSchema>({
-		client_description: 'sadad',
-		date: '2024-03-23',
-		icon: '12331',
+		client_description: '',
+		date: '',
+		icon: '',
 		id_place: 0,
 		id_status: 0,
 		id_user: USER_ID,
@@ -30,8 +30,8 @@ export default function EventForm() {
 		tech_desc: '',
 	})
 	const navigator = useNavigate()
-	const [paymentId, setPaymentId] = useState<number>(1)
-	const [time, setTime] = useState<string>('12:30')
+	const [paymentId, setPaymentId] = useState<number>(0)
+	const [time, setTime] = useState<string>('')
 	const mutation = useMutation({
 		mutationFn: sendEvent,
 		onSuccess: res => {
