@@ -38,8 +38,6 @@ export default function Navbar() {
 					</ul>
 				</div>
 				<a className="btn btn-ghost text-xl">LARPex</a>
-				{/* </div>
-				<div className="navbar-center hidden lg:flex"> */}
 				<ul className="menu menu-horizontal px-1 hidden lg:flex gap-4">
 					<li>
 						<NavLink to={ROUTES.HOME}>Strona główna</NavLink>
