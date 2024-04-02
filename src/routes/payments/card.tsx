@@ -1,6 +1,7 @@
 import Input, { Label } from '@/components/Input'
 import { CardData, useCart } from '@/context/CartContext'
 import { buyGame } from '@/model/payments'
+import { PaymentMethodGetSchema } from '@/model/paymentsGateway/types'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -12,8 +13,8 @@ export default function CardRoute() {
 	} = useCart()
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { data } = useQuery({
-		queryKey: ['pay-api', 'payment-gateway', paymentSetup?.paymentMethodId],
+	const { data } = useQuery<PaymentMethodGetSchema>({
+		queryKey: ['pay-api', 'payment-gateway', paymentSetup?.payment_method_id],
 	})
 
 	const [card, setCard] = useState<CardData>(contextCard)
@@ -42,7 +43,7 @@ export default function CardRoute() {
 
 	return (
 		<article className="w-full flex flex-col gap-3">
-			<h1 className="text-2xl">Płatność - </h1>
+			<h1 className="text-2xl">Płatność - {data?.payment_name}</h1>
 			<section className="flex-1 flex gap-6 flex-col lg:flex-row">
 				<section className="flex flex-col items-start gap-3 flex-1">
 					<div className="card w-full bg-base-100 shadow-xl rounded-2xl p-5 flex flex-col gap-3">

@@ -1,9 +1,9 @@
 import * as React from 'react'
 
 export type PaymentSetupData = {
-	userId: number | undefined
-	eventId: number | undefined
-	paymentMethodId: number | undefined
+	user_id: number | undefined
+	event_id: number | undefined
+	payment_method_id: number | undefined
 }
 export type CardData = {
 	cardNumber: string
@@ -48,9 +48,9 @@ function cartReducer(state: State, action: Action) {
 const initialState: State = {
 	isSuccess: undefined,
 	paymentSetup: {
-		userId: undefined,
-		eventId: undefined,
-		paymentMethodId: undefined,
+		user_id: undefined,
+		event_id: undefined,
+		payment_method_id: undefined,
 	},
 	card: {
 		cardNumber: '',
