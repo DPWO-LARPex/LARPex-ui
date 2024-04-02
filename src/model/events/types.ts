@@ -1,5 +1,5 @@
 // Event schemas
-export interface EventGetSchema {
+export type EventGetSchema = {
 	id: number
 	icon: string | null
 	tech_desc: string
@@ -13,7 +13,7 @@ export interface EventGetSchema {
 	id_place: number
 }
 
-export interface EventPostSchema {
+export type EventPostSchema = {
 	icon: string
 	tech_desc: string
 	client_description: string

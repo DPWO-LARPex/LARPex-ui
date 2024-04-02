@@ -53,6 +53,9 @@ export default function Navbar() {
 						<NavLink to={ROUTES.AV_GAMES}>Avaliable Games</NavLink>
 					</li>
 					<li>
+						<NavLink to={ROUTES.EVENTS}>Wydarzenia</NavLink>
+					</li>
+					<li>
 						<NavLink to={ROUTES.ABOUT}>About</NavLink>
 					</li>
 					<li>

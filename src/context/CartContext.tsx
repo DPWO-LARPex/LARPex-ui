@@ -29,6 +29,7 @@ type Action =
 	| { type: 'setSuccess'; payload: boolean }
 
 type Dispatch = (action: Action) => void
+
 export type State = {
 	cart: CartItem[]
 	address: AddressData

@@ -1,7 +1,7 @@
 import { MapGetSchema } from '../maps/types'
 
 // Game schemas
-export interface GameGetSchema {
+export type GameGetSchema = {
 	game_id: number
 	user_id: number
 	name: string
@@ -13,7 +13,7 @@ export interface GameGetSchema {
 	maps: MapGetSchema[]
 }
 
-export interface GamePostSchema {
+export type GamePostSchema = {
 	user_id: number
 	name: string
 	description: string
