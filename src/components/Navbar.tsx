@@ -1,6 +1,4 @@
 import { ROUTES } from '@/constants/routes'
-import { faCartShopping } from '@fortawesome/free-solid-svg-icons/faCartShopping'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { NavLink, Link } from 'react-router-dom'
 
 export default function Navbar() {
@@ -29,16 +27,13 @@ export default function Navbar() {
 						className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
 					>
 						<li>
-							<NavLink to={ROUTES.HOME}>Home</NavLink>
+							<NavLink to={ROUTES.HOME}>Strona główna</NavLink>
 						</li>
 						<li>
-							<NavLink to={ROUTES.AV_GAMES}>Avaliable Games</NavLink>
+							<NavLink to={ROUTES.AV_GAMES}>Gry</NavLink>
 						</li>
 						<li>
-							<NavLink to={ROUTES.ABOUT}>About</NavLink>
-						</li>
-						<li>
-							<NavLink to={ROUTES.GALLERY}>Gallery</NavLink>
+							<NavLink to={ROUTES.EVENTS}>Wydarzenia</NavLink>
 						</li>
 					</ul>
 				</div>
@@ -47,30 +42,19 @@ export default function Navbar() {
 				<div className="navbar-center hidden lg:flex"> */}
 				<ul className="menu menu-horizontal px-1 hidden lg:flex gap-4">
 					<li>
-						<NavLink to={ROUTES.HOME}>Home</NavLink>
+						<NavLink to={ROUTES.HOME}>Strona główna</NavLink>
 					</li>
 					<li>
-						<NavLink to={ROUTES.AV_GAMES}>Avaliable Games</NavLink>
+						<NavLink to={ROUTES.AV_GAMES}>Gry</NavLink>
 					</li>
 					<li>
-						<NavLink to={ROUTES.ABOUT}>About</NavLink>
-					</li>
-					<li>
-						<NavLink to={ROUTES.GALLERY}>Gallery</NavLink>
+						<NavLink to={ROUTES.EVENTS}>Wydarzenia</NavLink>
 					</li>
 				</ul>
 			</div>
 			<div className="navbar-end">
 				<Link to="/" className="btn bg-red-500 hover:bg-red-600 text-white">
-					Book the game
-				</Link>
-
-				<Link to="/payments" className="btn btn-ghost">
-					<FontAwesomeIcon
-						icon={faCartShopping}
-						size="xl"
-						className="text-white"
-					/>
+					Zarezerwuj grę
 				</Link>
 			</div>
 		</div>
