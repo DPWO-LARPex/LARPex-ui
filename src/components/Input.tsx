@@ -13,7 +13,7 @@ export default function Input({
 }: InputProps) {
 	return (
 		<div
-			className={`flex justify-between gap-3 flex-col ${isHorizontal ? 'md:flex-row md:items-center' : ''}`}
+			className={` w-full flex justify-between gap-3 flex-col ${isHorizontal ? 'md:flex-row md:items-center' : ''}`}
 		>
 			<Label label={label} description={description} />
 			<input

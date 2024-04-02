@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { useState } from 'react'
 import { EventPostSchema } from '@/model/events/types'
 import { useMutation, useQuery } from '@tanstack/react-query'
@@ -8,8 +7,10 @@ import { formatCurrencyAmount } from '@/utils'
 import { PaymentMethodGetSchema } from '@/model/paymentsGateway/types'
 import { sendEvent } from '@/model/events'
 import { useNavigate } from 'react-router-dom'
+import { usePayment } from '@/context/PaymentContext'
 
 const PRICE = 500
+const USER_ID = 1
 
 export default function EventForm() {
 	const placesQuery = useQuery<PlaceGetSchema[]>({ queryKey: ['api/place'] })
@@ -19,26 +20,36 @@ export default function EventForm() {
 	const [event, setEvent] = useState<EventPostSchema>({
 		client_description: 'sadad',
 		date: '2024-03-23',
-		icon: '',
+		icon: '12331',
 		id_place: 0,
 		id_status: 0,
-		id_user: 0,
-		players_count: 12,
-		price_buy_in: 123,
+		id_user: USER_ID,
+		players_count: 10,
+		price_buy_in: 0,
 		price_org: PRICE,
-		tech_desc: 'test',
+		tech_desc: '',
 	})
 	const navigator = useNavigate()
-	const [paymentId, setPaymentId] = useState<number>(0)
-	const [time, setTime] = useState<string>('')
+	const [paymentId, setPaymentId] = useState<number>(1)
+	const [time, setTime] = useState<string>('12:30')
 	const mutation = useMutation({
 		mutationFn: sendEvent,
-		onSuccess: () => {
+		onSuccess: res => {
+			dispatch({
+				type: 'setPaymentSetup',
+				payload: {
+					event_id: res.id,
+					payment_method_id: paymentId,
+					user_id: event.id_user,
+					amount: PRICE,
+					date: new Date().toISOString(),
+				},
+			})
 			navigator('/payments')
 		},
 	})
 
-	console.log(mutation)
+	const { dispatch } = usePayment()
 
 	const handleEventChange =
 		(field: keyof EventPostSchema) =>

@@ -8,7 +8,7 @@ import { generateUrlFromQueryKey, isKeyWithIgnore } from '@/utils'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { client } from './model/client'
 import Root from './routes/root.tsx'
-import { CartProvider } from './context/CartContext.tsx'
+import { PaymentProvider } from './context/PaymentContext.tsx'
 import PaymentRoute from './routes/payments/index.tsx'
 import CardRoute from './routes/payments/card.tsx'
 import SummaryRoute from './routes/payments/summary.tsx'
@@ -87,9 +87,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')!).render(
 	<React.StrictMode>
 		<QueryClientProvider client={queryClient}>
-			<CartProvider>
+			<PaymentProvider>
 				<RouterProvider router={router} />
-			</CartProvider>
+			</PaymentProvider>
 		</QueryClientProvider>
 	</React.StrictMode>,
 )

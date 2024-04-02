@@ -3,7 +3,7 @@ export interface PaymentMethodGetSchema {
 	payment_name: string
 }
 
-export interface PaymentPostSchema {
+export type PaymentPostSchema = {
 	date: string // Should be properly typed as Date if possible
 	amount: number
 	payment_method_id: number

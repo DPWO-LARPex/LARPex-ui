@@ -1,10 +1,7 @@
+import { PaymentPostSchema } from '@/model/paymentsGateway/types'
 import * as React from 'react'
 
-export type PaymentSetupData = {
-	user_id: number | undefined
-	event_id: number | undefined
-	payment_method_id: number | undefined
-}
+export type PaymentSetupData = PaymentPostSchema
 export type CardData = {
 	cardNumber: string
 	cardHolder: string
@@ -26,16 +23,16 @@ export type State = {
 	isSuccess: boolean | undefined
 }
 
-type CartProviderProps = { children: React.ReactNode }
+type PaymentProviderProps = { children: React.ReactNode }
 
-const CartStateContext = React.createContext<
+const PaymentStateContext = React.createContext<
 	{ state: State; dispatch: Dispatch } | undefined
 >(undefined)
 
 function cartReducer(state: State, action: Action) {
 	switch (action.type) {
 		case 'setPaymentSetup': {
-			return { ...state, address: action.payload }
+			return { ...state, paymentSetup: action.payload }
 		}
 
 		case 'setCard': {
@@ -49,9 +46,11 @@ function cartReducer(state: State, action: Action) {
 const initialState: State = {
 	isSuccess: undefined,
 	paymentSetup: {
-		user_id: undefined,
-		event_id: undefined,
-		payment_method_id: undefined,
+		amount: 0,
+		event_id: 0,
+		payment_method_id: 0,
+		user_id: 0,
+		date: '',
 	},
 	card: {
 		cardNumber: '',
@@ -62,23 +61,23 @@ const initialState: State = {
 	},
 }
 
-function CartProvider({ children }: CartProviderProps) {
+function PaymentProvider({ children }: PaymentProviderProps) {
 	const [state, dispatch] = React.useReducer(cartReducer, initialState)
 
 	const value = { state, dispatch }
 	return (
-		<CartStateContext.Provider value={value}>
+		<PaymentStateContext.Provider value={value}>
 			{children}
-		</CartStateContext.Provider>
+		</PaymentStateContext.Provider>
 	)
 }
 
-function useCart() {
-	const context = React.useContext(CartStateContext)
+function usePayment() {
+	const context = React.useContext(PaymentStateContext)
 	if (context === undefined) {
-		throw new Error('useCart must be used within a CartProvider')
+		throw new Error('usePayment must be used within a PaymentProvider')
 	}
 	return context
 }
 
-export { CartProvider, useCart }
+export { PaymentProvider, usePayment }
