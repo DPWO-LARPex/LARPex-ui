@@ -1,10 +1,10 @@
-import { useCart } from '@/context/CartContext'
+import { usePayment } from '@/context/PaymentContext'
 import { Link } from 'react-router-dom'
 
 export default function SummaryRoute() {
 	const {
 		state: { isSuccess },
-	} = useCart()
+	} = usePayment()
 	return (
 		<div className="w-100 p-5">
 			<h2 className="text-3xl pb-3">Potwierdzenie</h2>
@@ -60,7 +60,7 @@ const Error = () => {
 			</svg>
 
 			<span>Płatność nieudana.</span>
-			<Link className="btn btn-primary" to="/payments/card">
+			<Link className="btn btn-primary" to="/payments">
 				Spróbuj ponownie
 			</Link>
 		</div>

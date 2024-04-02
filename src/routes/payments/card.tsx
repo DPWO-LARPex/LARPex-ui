@@ -1,7 +1,8 @@
 import Input, { Label } from '@/components/Input'
-import { CardData, useCart } from '@/context/CartContext'
-import { buyGame } from '@/model/payments'
+import { CardData, usePayment } from '@/context/PaymentContext'
+import { sendPayment } from '@/model/payments'
 import { PaymentMethodGetSchema } from '@/model/paymentsGateway/types'
+import { formatCurrencyAmount } from '@/utils'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -10,7 +11,7 @@ export default function CardRoute() {
 	const {
 		dispatch,
 		state: { card: contextCard, paymentSetup },
-	} = useCart()
+	} = usePayment()
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { data } = useQuery<PaymentMethodGetSchema>({
@@ -22,7 +23,7 @@ export default function CardRoute() {
 	const navigate = useNavigate()
 
 	const { mutate } = useMutation({
-		mutationFn: (body: Parameters<typeof buyGame>[0]) => buyGame(body),
+		mutationFn: (body: Parameters<typeof sendPayment>[0]) => sendPayment(body),
 		onSuccess: () => dispatch({ type: 'setSuccess', payload: true }),
 		onError: () => dispatch({ type: 'setSuccess', payload: false }),
 	})
@@ -37,13 +38,14 @@ export default function CardRoute() {
 
 	const handlePayment = () => {
 		dispatch({ type: 'setCard', payload: card })
-		mutate({ paymentSetup, card })
+		mutate({ paymentSetup })
 		navigate('/payments/summary')
 	}
 
 	return (
 		<article className="w-full flex flex-col gap-3">
 			<h1 className="text-2xl">Płatność - {data?.payment_name}</h1>
+			<p>{`Do zapłaty: ${formatCurrencyAmount(paymentSetup.amount)}`}</p>
 			<section className="flex-1 flex gap-6 flex-col lg:flex-row">
 				<section className="flex flex-col items-start gap-3 flex-1">
 					<div className="card w-full bg-base-100 shadow-xl rounded-2xl p-5 flex flex-col gap-3">
@@ -101,13 +103,13 @@ export default function CardRoute() {
 					</div>
 				</section>
 
-				<div className="card bg-base-100 shadow-xl flex-1">
+				{/* <div className="card bg-base-100 shadow-xl flex-1">
 					<div className="card-body">
 						<h2 className="card-title">Metoda Płatności</h2>
 						<div className="h-[1px] w-full bg-slate-600" />
 						<p>Karta płatnicza</p>
 					</div>
-				</div>
+				</div> */}
 			</section>
 			<div className="w-full flex justify-end pt-2">
 				<button className="btn btn-primary self-end" onClick={handlePayment}>

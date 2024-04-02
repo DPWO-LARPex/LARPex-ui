@@ -1,9 +1,9 @@
-import { State } from '@/context/CartContext'
+import { State } from '@/context/PaymentContext'
 import { client } from '../client'
 
-export const buyGame = async (body: Omit<State, 'isSuccess'>) => {
-	return client('/api/payments', {
+export const sendPayment = async (body: Omit<State, 'isSuccess' | 'card'>) => {
+	return client('/pay-api/payment-gateway', {
 		method: 'POST',
-		body,
+		body: { ...body.paymentSetup },
 	})
 }

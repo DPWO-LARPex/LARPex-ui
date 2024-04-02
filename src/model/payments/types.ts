@@ -1,5 +1,5 @@
 // Payment schemas
-export interface PaymentGetSchema {
+export type PaymentGetSchema = {
 	id: number
 	date: string // Should be properly typed as Date if possible
 	amount: number

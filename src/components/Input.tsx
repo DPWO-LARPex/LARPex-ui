@@ -1,18 +1,26 @@
 type InputProps = {
 	label: string
-	description: string
+	description?: string
 	inputProps?: React.InputHTMLAttributes<HTMLInputElement>
+	isHorizontal?: boolean
 }
 
-export default function Input({ label, description, inputProps }: InputProps) {
+export default function Input({
+	label,
+	description,
+	inputProps,
+	isHorizontal,
+}: InputProps) {
 	return (
-		<div className="w-full flex md:items-center justify-between gap-3 flex-col md:flex-row">
+		<div
+			className={` w-full flex justify-between gap-3 flex-col ${isHorizontal ? 'md:flex-row md:items-center' : ''}`}
+		>
 			<Label label={label} description={description} />
 			<input
-				{...inputProps}
 				type="text"
 				placeholder="Type here"
-				className="input input-bordered w-full max-w-xs"
+				{...inputProps}
+				className={`input input-bordered w-full max-w-xs ${inputProps?.className}`}
 			/>
 		</div>
 	)
@@ -21,10 +29,14 @@ export default function Input({ label, description, inputProps }: InputProps) {
 export const Label = ({
 	label,
 	description,
-}: Pick<InputProps, 'description' | 'label'>) => {
+	...labelProps
+}: Pick<InputProps, 'description' | 'label'> &
+	React.LabelHTMLAttributes<HTMLLabelElement>) => {
 	return (
 		<div className="flex flex-col flex-1">
-			<span className="p-0 m-0 font-bold whitespace-nowrap">{label}</span>
+			<label className="p-0 m-0 font-bold whitespace-nowrap" {...labelProps}>
+				{label}
+			</label>
 			<span className="p-0 m-0 text-stone-500 whitespace-nowrap">
 				{description}
 			</span>
