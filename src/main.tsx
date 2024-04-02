@@ -17,7 +17,8 @@ import Navbar from './components/Navbar.tsx'
 import Footer from './components/Footer.tsx'
 import GamesRoute from './routes/games/games.tsx'
 import GameForm from './routes/games/gameForm.tsx'
-import EventForm from './routes/events/index.tsx'
+import EventsRoute from './routes/events/index.tsx'
+import EventForm from './routes/events/eventForm.tsx'
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -77,7 +78,9 @@ const router = createBrowserRouter([
 					{ path: '/avGames', element: <GamesRoute /> },
 					{ path: '/avGames/create', element: <GameForm /> },
 					{ path: '/avGames/edit/:id', element: <GameForm /> },
-					{ path: '/events', element: <EventForm /> },
+					{ path: '/events', element: <EventsRoute /> },
+					{ path: '/events/edit', element: <EventForm /> },
+					{ path: '/events/edit/:id', element: <EventForm /> },
 				],
 			},
 		],
