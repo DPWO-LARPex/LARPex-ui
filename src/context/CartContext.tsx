@@ -1,16 +1,9 @@
 import * as React from 'react'
 
-export type CartItem = {
-	id: string
-	quantity: number
-	name: string
-	price: number
-}
-export type AddressData = {
-	city: string
-	street: string
-	zipCode: string
-	number: string
+export type PaymentSetupData = {
+	user_id: number | undefined
+	event_id: number | undefined
+	payment_method_id: number | undefined
 }
 export type CardData = {
 	cardNumber: string
@@ -21,18 +14,14 @@ export type CardData = {
 }
 
 type Action =
-	| { type: 'addToCart'; payload: CartItem }
-	| { type: 'removeFromCart'; payload: string }
-	| { type: 'clearCart' }
-	| { type: 'setAddress'; payload: AddressData }
+	| { type: 'setPaymentSetup'; payload: PaymentSetupData }
 	| { type: 'setCard'; payload: CardData }
 	| { type: 'setSuccess'; payload: boolean }
 
 type Dispatch = (action: Action) => void
 
 export type State = {
-	cart: CartItem[]
-	address: AddressData
+	paymentSetup: PaymentSetupData
 	card: CardData
 	isSuccess: boolean | undefined
 }
@@ -45,35 +34,7 @@ const CartStateContext = React.createContext<
 
 function cartReducer(state: State, action: Action) {
 	switch (action.type) {
-		case 'addToCart': {
-			const existingItem = state.cart.find(
-				item => item.id === action.payload.id,
-			)
-			if (existingItem) {
-				return {
-					...state,
-					cart: state.cart.map(item =>
-						item.id === action.payload.id
-							? { ...item, quantity: item.quantity + action.payload.quantity }
-							: item,
-					),
-				}
-			}
-			return { ...state, cart: [...state.cart, action.payload] }
-		}
-
-		case 'removeFromCart': {
-			return {
-				...state,
-				cart: state.cart.filter(item => item.id !== action.payload),
-			}
-		}
-
-		case 'clearCart': {
-			return { ...state, cart: [] }
-		}
-
-		case 'setAddress': {
+		case 'setPaymentSetup': {
 			return { ...state, address: action.payload }
 		}
 
@@ -86,17 +47,12 @@ function cartReducer(state: State, action: Action) {
 }
 
 const initialState: State = {
-	cart: [
-		{
-			// TODO: remove this hardcoded data
-			id: '1',
-			quantity: 1,
-			name: 'Larp game',
-			price: 9123,
-		},
-	] as CartItem[],
 	isSuccess: undefined,
-	address: { city: '', street: '', zipCode: '', number: '' },
+	paymentSetup: {
+		user_id: undefined,
+		event_id: undefined,
+		payment_method_id: undefined,
+	},
 	card: {
 		cardNumber: '',
 		cardHolder: '',
