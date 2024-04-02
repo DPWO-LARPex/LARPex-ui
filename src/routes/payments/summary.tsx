@@ -7,7 +7,7 @@ export default function SummaryRoute() {
 	} = useCart()
 	return (
 		<div className="w-100 p-5">
-			<h2 className="text-3xl pb-3">Address</h2>
+			<h2 className="text-3xl pb-3">Potwierdzenie</h2>
 			{isSuccess ? <Success /> : <Error />}
 		</div>
 	)
@@ -30,13 +30,13 @@ const Success = () => {
 				/>
 			</svg>
 			<span>
-				Payment successful.{' '}
+				Płatność zakończona sukcesem.{' '}
 				<Link className="underline" to="/">
-					Click to return to Main Page
+					Kliknij aby wrócić do strony głównej
 				</Link>
 			</span>
 			<Link className="btn btn-primary" to="/">
-				Finish
+				Zakończ
 			</Link>
 		</div>
 	)
@@ -59,9 +59,9 @@ const Error = () => {
 				/>
 			</svg>
 
-			<span>Payment unsuccessful.</span>
+			<span>Płatność nieudana.</span>
 			<Link className="btn btn-primary" to="/payments/card">
-				Try again
+				Spróbuj ponownie
 			</Link>
 		</div>
 	)

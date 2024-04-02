@@ -1,15 +1,20 @@
 import Input, { Label } from '@/components/Input'
 import { CardData, useCart } from '@/context/CartContext'
 import { buyGame } from '@/model/payments'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 export default function CardRoute() {
 	const {
 		dispatch,
-		state: { cart, card: contextCard, address },
+		state: { card: contextCard, paymentSetup },
 	} = useCart()
+
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const { data } = useQuery({
+		queryKey: ['pay-api', 'payment-gateway', paymentSetup?.paymentMethodId],
+	})
 
 	const [card, setCard] = useState<CardData>(contextCard)
 
@@ -31,13 +36,13 @@ export default function CardRoute() {
 
 	const handlePayment = () => {
 		dispatch({ type: 'setCard', payload: card })
-		mutate({ cart, address, card })
+		mutate({ paymentSetup, card })
 		navigate('/payments/summary')
 	}
 
 	return (
 		<article className="w-full flex flex-col gap-3">
-			<h1 className="text-2xl">Płatność</h1>
+			<h1 className="text-2xl">Płatność - </h1>
 			<section className="flex-1 flex gap-6 flex-col lg:flex-row">
 				<section className="flex flex-col items-start gap-3 flex-1">
 					<div className="card w-full bg-base-100 shadow-xl rounded-2xl p-5 flex flex-col gap-3">
@@ -103,10 +108,7 @@ export default function CardRoute() {
 					</div>
 				</div>
 			</section>
-			<div className="w-full flex justify-between ">
-				<Link className="btn btn-ghost self-end" to="/payments/address">
-					Wróć
-				</Link>
+			<div className="w-full flex justify-end pt-2">
 				<button className="btn btn-primary self-end" onClick={handlePayment}>
 					Zapłać
 				</button>

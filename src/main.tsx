@@ -10,8 +10,6 @@ import { client } from './model/client'
 import Root from './routes/root.tsx'
 import { CartProvider } from './context/CartContext.tsx'
 import PaymentRoute from './routes/payments/index.tsx'
-import CartRoute from './routes/payments/cart.tsx'
-import AddressRoute from './routes/payments/address.tsx'
 import CardRoute from './routes/payments/card.tsx'
 import SummaryRoute from './routes/payments/summary.tsx'
 import { NotFound } from './NotFound.tsx'
@@ -64,9 +62,7 @@ const router = createBrowserRouter([
 						path: '/payments',
 						element: <PaymentRoute />,
 						children: [
-							{ path: '', element: <CartRoute /> },
-							{ path: 'address', element: <AddressRoute /> },
-							{ path: 'card', element: <CardRoute /> },
+							{ path: '', element: <CardRoute /> },
 							{ path: 'summary', element: <SummaryRoute /> },
 						],
 					},

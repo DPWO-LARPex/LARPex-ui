@@ -14,9 +14,7 @@ export default function PaymentRoute() {
 }
 
 const routes = [
-	{ path: '/payments', name: 'Koszyk' },
-	{ path: '/payments/address', name: 'Adres' },
-	{ path: '/payments/card', name: 'Płatność' },
+	{ path: '/payments/', name: 'Płatność' },
 	{ path: '/payments/summary', name: 'Potwierdzenie' },
 ]
 
