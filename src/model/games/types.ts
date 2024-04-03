@@ -7,8 +7,9 @@ export type GameGetSchema = {
 	name: string
 	description: string
 	max_players_number: number
+	min_players_number: number
 	state: string
-	difficulty: string
+	difficulty: number
 	scenario: string
 	maps: MapGetSchema[]
 }

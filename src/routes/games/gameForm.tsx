@@ -93,21 +93,34 @@ export default function GameForm() {
 
 					<div className="w-1/2 pl-12">
 						<label className="label">
-							<span className="label-text">Difficulty level</span>
+							<span className="label-text">Max. number of players</span>
 						</label>
-						<div id="difficultyLevel" className="flex items-center">
-							{[1, 2, 3, 4, 5].map(level => (
-								<LuSwords
-									key={level}
-									aria-label={`Level ${level}`}
-									onClick={() => {
-										setGame({ ...game!, difficultyLevel: level.toString() })
-									}}
-									className={`cursor-pointer hover:text-stone-200 ${level <= parseInt(game?.difficultyLevel || '0') ? 'text-white' : 'text-gray-500'}`}
-									size={40}
-								/>
-							))}
-						</div>
+						<input
+							value={game?.numberOfPlayers || ''}
+							onChange={e =>
+								setGame({ ...game!, numberOfPlayers: e.target.value })
+							}
+							className="input w-full bg-white text-black input-bordered focus:outline-offset-0"
+						/>
+					</div>
+				</div>
+
+				<div className='mx-auto text-center'>
+					<label className="label">
+						<span className="label-text">Difficulty level</span>
+					</label>
+					<div id="difficultyLevel" className="flex items-center">
+						{[1, 2, 3, 4, 5].map(level => (
+							<LuSwords
+								key={level}
+								aria-label={`Level ${level}`}
+								onClick={() => {
+									setGame({ ...game!, difficultyLevel: level.toString() })
+								}}
+								className={`cursor-pointer hover:text-stone-200 ${level <= parseInt(game?.difficultyLevel || '0') ? 'text-white' : 'text-gray-500'}`}
+								size={40}
+							/>
+						))}
 					</div>
 				</div>
 
@@ -122,14 +135,25 @@ export default function GameForm() {
 					/>
 				</div>
 
-				{game?.status && game.status.trim() !== '' && (
+				<div>
+					<label className="label">
+						<span className="label-text">Scenariusz</span>
+					</label>
+					<textarea
+						value={game?.description || ''}
+						onChange={e => setGame({ ...game!, description: e.target.value })}
+						className="input w-full bg-white text-black input-bordered focus:outline-offset-0"
+					/>
+				</div>
+
+				{/* {game?.status && game.status.trim() !== '' && (
 					<div className="flex items-center">
 						<p>Status: {game.status}</p>
 						<span
 							className={`ml-2 inline-block h-3 w-3 rounded-full mr-2 ${game.status === 'Ready' ? 'bg-green-500' : 'bg-orange-500'}`}
 						></span>
 					</div>
-				)}
+				)} */}
 
 				<div className="flex justify-center">
 					<Link to="/avgames" className="mx-4">
