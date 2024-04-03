@@ -1,7 +1,8 @@
 import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { EventGetSchema } from '@/model/events/types'
-
+import { formatCurrencyAmount } from '@/utils'
+import dayjs from 'dayjs'
 export default function EventsRoute() {
 	const {
 		data: events,
@@ -14,6 +15,7 @@ export default function EventsRoute() {
 	if (isError) throw new Error('Couldnt load events')
 	if (isLoading)
 		return <div className="flex justify-center p-80">Loading...</div>
+
 	return (
 		<div className="list my-12">
 			<Link to="./edit">
@@ -28,13 +30,13 @@ export default function EventsRoute() {
 							{/* {event.title} */}
 							EVENT
 						</h2>
-						<p className="text-center text-base">
-							By {event.client_description}
-						</p>
+						<p className="text-center text-base">{event.client_description}</p>
 						<div className="m-6 space-y-2">
 							<p>Max. number of players: {event.players_count}</p>
 							<div className="flex items-center">
-								<p className="mr-2">Difficulty level:</p>
+								<p className="mr-2">
+									Price: {formatCurrencyAmount(event.price_buy_in)}
+								</p>
 								{/* {[...Array(5)].map((_, i) => (
 									<LuSwords
 										key={i}
@@ -44,7 +46,7 @@ export default function EventsRoute() {
 								))} */}
 							</div>
 							<div className="flex items-center">
-								<p>Status: {event.price_buy_in}</p>
+								<p>Data wydarzenia: {dayjs(event.date).format('DD.MM.YYYY')}</p>
 								{/* <span
 									className={`ml-2 inline-block h-3 w-3 rounded-full mr-2 ${event.status === 'Ready' ? 'bg-green-500' : 'bg-orange-500'}`}
 								></span> */}
