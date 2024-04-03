@@ -1,33 +1,14 @@
 import { Link } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
-
-interface Event {
-	id: number
-	icon: string
-	tech_desc: string
-	client_description: string
-	players_count: number
-	date: Date
-	price_org: number
-	price_buy_in: number
-	id_status: number
-	id_user: number
-	id_place: number
-}
+import { EventGetSchema } from '@/model/events/types'
 
 export default function EventsRoute() {
 	const {
 		data: events,
 		isLoading,
 		isError,
-	} = useQuery({
-		queryKey: ['events'],
-		queryFn: async () => {
-			const response = await fetch(`${import.meta.env.VITE_API_URL}/api/event`)
-			const data = await response.json()
-			console.log(data)
-			return data
-		},
+	} = useQuery<EventGetSchema[]>({
+		queryKey: ['api/event'],
 	})
 
 	if (isError) throw new Error('Couldnt load events')
@@ -40,7 +21,7 @@ export default function EventsRoute() {
 					Dodaj nowe wydarzenie
 				</div>
 			</Link>
-			{events.map((event: Event, index: number) => (
+			{events?.map((event, index) => (
 				<div key={index} className="game flex my-8">
 					<div className="details w-2/5 p-4 bg-stone-900 text-xl">
 						<h2 className="text-xl md:text-5xl text-center text-white tracking-wider">
@@ -77,12 +58,19 @@ export default function EventsRoute() {
 							src={event.icon}
 							alt={event.icon}
 						/>
-						<button className="btn text-stone-200 bg-stone-900 hover:bg-stone-200 hover:border-stone-200 hover:text-stone-900 absolute top-1/2 left-1/3 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out">
-							<Link to={`./edit/${event.id}`}>More info</Link>
-						</button>
-						<button className="btn text-stone-200 bg-stone-900 hover:bg-stone-200 hover:border-stone-200 hover:text-stone-900 absolute top-1/2 left-2/3 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out">
-							<Link to={`./edit/${event.id}`}>Edit</Link>
-						</button>
+
+						<Link
+							className="btn text-stone-200 bg-stone-900 hover:bg-stone-200 hover:border-stone-200 hover:text-stone-900 absolute top-1/2 left-1/3 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out"
+							to={`./edit/${event.id}`}
+						>
+							More info
+						</Link>
+						<Link
+							className="btn text-stone-200 bg-stone-900 hover:bg-stone-200 hover:border-stone-200 hover:text-stone-900 absolute top-1/2 left-2/3 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out"
+							to={`./edit/${event.id}`}
+						>
+							Edit
+						</Link>
 					</div>
 				</div>
 			))}

@@ -1,24 +1,39 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { EventPostSchema } from '@/model/events/types'
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { PlaceGetSchema } from '@/model/places/types'
 import Input, { Label } from '@/components/Input'
 import { formatCurrencyAmount } from '@/utils'
 import { PaymentMethodGetSchema } from '@/model/paymentsGateway/types'
 import { sendEvent } from '@/model/events'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { usePayment } from '@/context/PaymentContext'
+import dayjs from 'dayjs'
 
 const PRICE = 500
 const USER_ID = 1
-// prettier-ignore
 
 export default function EventForm() {
-	// const { id } = useParams()
+	const { id } = useParams()
+	const isEditMode = Boolean(id)
+	const eventQuery = useQuery<EventPostSchema>({
+		queryKey: ['api/event', id],
+		enabled: isEditMode,
+	})
+	useEffect(() => {
+		if (eventQuery.data) {
+			setEvent({
+				...eventQuery.data,
+				date: dayjs(eventQuery.data.date).format('YYYY-MM-DD'),
+			})
+			setTime(dayjs(eventQuery.data.date).format('HH:mm'))
+		}
+	}, [eventQuery.data])
 	const placesQuery = useQuery<PlaceGetSchema[]>({ queryKey: ['api/place'] })
 	const paymentsMethods = useQuery<PaymentMethodGetSchema[]>({
 		queryKey: ['pay-api/payment-gateway'],
 	})
+	const queryClient = useQueryClient()
 	const [event, setEvent] = useState<EventPostSchema>({
 		client_description: '',
 		date: '',
@@ -37,6 +52,11 @@ export default function EventForm() {
 	const mutation = useMutation({
 		mutationFn: sendEvent,
 		onSuccess: res => {
+			queryClient.invalidateQueries({ queryKey: ['api/event'] })
+			if (isEditMode) {
+				navigator('/events')
+				return
+			}
 			dispatch({
 				type: 'setPaymentSetup',
 				payload: {
@@ -55,17 +75,24 @@ export default function EventForm() {
 
 	const handleEventChange =
 		(field: keyof EventPostSchema) =>
-			(
-				e: React.ChangeEvent<
-					HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-				>,
-			) => {
-				const { value } = e.target
-				setEvent(prev => ({ ...prev, [field]: value }))
-			}
+		(
+			e: React.ChangeEvent<
+				HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+			>,
+		) => {
+			const { value } = e.target
+			setEvent(prev => ({ ...prev, [field]: value }))
+		}
 
 	const handleSubmit = () => {
-		mutation.mutate(event)
+		const [hours, minutes] = (time ?? '00:00').split(':')
+		mutation.mutate({
+			event: {
+				...event,
+				date: dayjs(event.date).hour(+hours).minute(+minutes).toISOString(),
+			},
+			id,
+		})
 	}
 
 	return (
@@ -79,7 +106,8 @@ export default function EventForm() {
 					/>
 				) : (
 					<p className="text-center text-gray-500">
-						Wprowadź adres URL w polu wejściowym, aby wyświetlić odpowiadający obraz.
+						Wprowadź adres URL w polu wejściowym, aby wyświetlić odpowiadający
+						obraz.
 					</p>
 				)}
 			</div>
@@ -141,7 +169,7 @@ export default function EventForm() {
 							/>
 						</div>
 						<div className="flex flex-col gap-3">
-							<Label label="Opis dla techniczny" />
+							<Label label="Opis techniczny" />
 							<textarea
 								className="textarea"
 								value={event.tech_desc}
@@ -158,44 +186,49 @@ export default function EventForm() {
 							value: event.price_buy_in.toString(),
 							onChange: handleEventChange('price_buy_in'),
 						}}
-					/>{' '}
-					<div>
-						<Label label="Cena za organizacje" />
-						<p>{formatCurrencyAmount(PRICE)}</p>
-					</div>
-					<div>
-						<p>Metoda płatności</p>
-						{paymentsMethods.data?.map(payment => {
-							return (
-								<div key={payment.id} className="flex gap-5">
-									<input
-										type="radio"
-										name="payment"
-										id={payment.id?.toString()}
-										checked={payment.id === paymentId}
-										onChange={() => setPaymentId(payment.id || 0)}
-									/>
-									<Label
-										htmlFor={payment.id?.toString()}
-										label={payment.payment_name}
-									/>
-								</div>
-							)
-						})}
-					</div>
+					/>
+					{!isEditMode ? (
+						<>
+							<div>
+								<Label label="Cena za organizacje" />
+								<p>{formatCurrencyAmount(PRICE)}</p>
+							</div>
+
+							<div>
+								<p>Metoda płatności</p>
+								{paymentsMethods.data?.map(payment => {
+									return (
+										<div key={payment.id} className="flex gap-5">
+											<input
+												type="radio"
+												name="payment"
+												id={payment.id?.toString()}
+												checked={payment.id === paymentId}
+												onChange={() => setPaymentId(payment.id || 0)}
+											/>
+											<Label
+												htmlFor={payment.id?.toString()}
+												label={payment.payment_name}
+											/>
+										</div>
+									)
+								})}
+							</div>
+						</>
+					) : null}
 				</div>
 			</div>
 			<div className="flex gap-3 justify-center">
 				<button
 					className="btn btn-tertiary"
 					onClick={() => {
-						navigator('/')
+						navigator('/events')
 					}}
 				>
 					Anuluj
 				</button>
 				<button className="btn btn-primary" onClick={handleSubmit}>
-					Zapłać
+					{isEditMode ? 'Zapisz' : 'Zapłać'}
 				</button>
 			</div>
 		</div>
