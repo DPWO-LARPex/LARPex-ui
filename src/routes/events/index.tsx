@@ -28,14 +28,14 @@ export default function EventsRoute() {
 					<div className="details w-2/5 p-4 bg-stone-900 text-xl">
 						<h2 className="text-xl md:text-5xl text-center text-white tracking-wider">
 							{/* {event.title} */}
-							EVENT
+							Wydarzenie
 						</h2>
 						<p className="text-center text-base">{event.client_description}</p>
 						<div className="m-6 space-y-2">
-							<p>Max. number of players: {event.players_count}</p>
+							<p>Ilość graczy: {event.players_count}</p>
 							<div className="flex items-center">
 								<p className="mr-2">
-									Price: {formatCurrencyAmount(event.price_buy_in)}
+									Cena: {formatCurrencyAmount(event.price_buy_in)}
 								</p>
 								{/* {[...Array(5)].map((_, i) => (
 									<LuSwords
@@ -65,13 +65,13 @@ export default function EventsRoute() {
 							className="btn text-stone-200 bg-stone-900 hover:bg-stone-200 hover:border-stone-200 hover:text-stone-900 absolute top-1/2 left-1/3 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out"
 							to={`./edit/${event.id}`}
 						>
-							More info
+							Więcej
 						</Link>
 						<Link
 							className="btn text-stone-200 bg-stone-900 hover:bg-stone-200 hover:border-stone-200 hover:text-stone-900 absolute top-1/2 left-2/3 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out"
 							to={`./edit/${event.id}`}
 						>
-							Edit
+							Edytuj
 						</Link>
 					</div>
 				</div>
