@@ -1,41 +1,45 @@
 /* eslint-disable prettier/prettier */
 import { useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
-import gamesData from './data.json'
+// import gamesData from './data.json'
 import { LuSwords } from 'react-icons/lu'
+import { useQuery } from '@tanstack/react-query'
+import { GameGetSchema } from '@/model/games/types'
 
 export default function GameForm() {
 	const { id } = useParams()
-	const [game, setGame] = useState<null | {
-		id: number
-		title: string
-		author: string
-		numberOfPlayers: string
-		difficultyLevel: string
-		status: string
-		description: string
-		imageUrl: string
-	}>(null)
+	const gamesQuery = useQuery<GameGetSchema>({ queryKey: ['api/game', id], enabled: !!id })
+	// const game = gamesQuery.data
+	const [formData, setFormData] = useState<GameGetSchema | null>(null);
+
+
+
 
 	const handleSubmit = (event: React.FormEvent) => {
 		event.preventDefault(); // Prevent the default form submit behavior to log the form data
-		const updatedGame = { ...game, status: 'Proposition' };
+		const updatedGame = { ...formData, status: 'Proposition' };
 		console.log('form sent', updatedGame);
 	}
 
 
+	// useEffect(() => {
+	// 	if (id) {
+	// 		const foundGame = gamesData.find(formData => game.id === Number(id))
+	// 		setFormData(foundGame || null)
+	// 	}
+	// }, [id])
+
 	useEffect(() => {
-		if (id) {
-			const foundGame = gamesData.find(game => game.id === Number(id))
-			setGame(foundGame || null)
+		if (gamesQuery.data) {
+			setFormData(gamesQuery.data);
 		}
-	}, [id])
+	}, [gamesQuery.data]);
 
 	return (
 		<div className="my-12 px-28 py-12">
 			<div className="w-full h-64 bg-gray-200 flex items-center justify-center">
-				{game?.imageUrl ? (
-					<img src={game.imageUrl} alt="Game" className="object-cover h-full w-full" />
+				{formData?.imageUrl ? (
+					<img src={formData.imageUrl} alt="Game" className="object-cover h-full w-full" />
 				) : (
 					<p className="text-center text-gray-500">Enter a URL in the input field to display the corresponding image.</p>
 				)}
@@ -47,8 +51,8 @@ export default function GameForm() {
 						<span className="label-text">Image URL</span>
 					</label>
 					<input
-						value={game?.imageUrl || ''}
-						onChange={e => setGame({ ...game!, imageUrl: e.target.value })}
+						value={formData?.imageUrl || ''}
+						onChange={e => setFormData({ ...formData!, imageUrl: e.target.value })}
 						className="input w-full bg-white text-black input-bordered focus:outline-offset-0"
 					/>
 				</div>
@@ -59,8 +63,8 @@ export default function GameForm() {
 							<span className="label-text">Game Title</span>
 						</label>
 						<input
-							value={game?.title || ''}
-							onChange={e => setGame({ ...game!, title: e.target.value })}
+							value={formData?.name || ''}
+							onChange={e => setFormData({ ...formData!, name: e.target.value })}
 							className="input w-full bg-white text-black input-bordered focus:outline-offset-0"
 						/>
 					</div>
@@ -70,8 +74,8 @@ export default function GameForm() {
 							<span className="label-text">Author</span>
 						</label>
 						<input
-							value={game?.author || ''}
-							onChange={e => setGame({ ...game!, author: e.target.value })}
+							value={formData?.author || ''}
+							onChange={e => setFormData({ ...formData!, author: e.target.value })}
 							className="input w-full bg-white text-black input-bordered focus:outline-offset-0"
 						/>
 					</div>
@@ -83,9 +87,9 @@ export default function GameForm() {
 							<span className="label-text">Max. number of players</span>
 						</label>
 						<input
-							value={game?.numberOfPlayers || ''}
+							value={formData?.max_players_number || ''}
 							onChange={e =>
-								setGame({ ...game!, numberOfPlayers: e.target.value })
+								setFormData({ ...formData!, max_players_number: e.target.value })
 							}
 							className="input w-full bg-white text-black input-bordered focus:outline-offset-0"
 						/>
@@ -96,9 +100,9 @@ export default function GameForm() {
 							<span className="label-text">Max. number of players</span>
 						</label>
 						<input
-							value={game?.numberOfPlayers || ''}
+							value={formData?.max_players_number || ''}
 							onChange={e =>
-								setGame({ ...game!, numberOfPlayers: e.target.value })
+								setFormData({ ...formData!, max_players_number: e.target.value })
 							}
 							className="input w-full bg-white text-black input-bordered focus:outline-offset-0"
 						/>
@@ -115,9 +119,9 @@ export default function GameForm() {
 								key={level}
 								aria-label={`Level ${level}`}
 								onClick={() => {
-									setGame({ ...game!, difficultyLevel: level.toString() })
+									setFormData({ ...formData!, difficulty: level.toString() })
 								}}
-								className={`cursor-pointer hover:text-stone-200 ${level <= parseInt(game?.difficultyLevel || '0') ? 'text-white' : 'text-gray-500'}`}
+								className={`cursor-pointer hover:text-stone-200 ${level <= parseInt(formData?.difficulty || '0') ? 'text-white' : 'text-gray-500'}`}
 								size={40}
 							/>
 						))}
@@ -129,8 +133,8 @@ export default function GameForm() {
 						<span className="label-text">Description</span>
 					</label>
 					<textarea
-						value={game?.description || ''}
-						onChange={e => setGame({ ...game!, description: e.target.value })}
+						value={formData?.description || ''}
+						onChange={e => setFormData({ ...formData!, description: e.target.value })}
 						className="input w-full bg-white text-black input-bordered focus:outline-offset-0"
 					/>
 				</div>
@@ -140,17 +144,17 @@ export default function GameForm() {
 						<span className="label-text">Scenariusz</span>
 					</label>
 					<textarea
-						value={game?.description || ''}
-						onChange={e => setGame({ ...game!, description: e.target.value })}
+						value={formData?.description || ''}
+						onChange={e => setFormData({ ...formData!, description: e.target.value })}
 						className="input w-full bg-white text-black input-bordered focus:outline-offset-0"
 					/>
 				</div>
 
-				{/* {game?.status && game.status.trim() !== '' && (
+				{/* {formData?.status && formData.status.trim() !== '' && (
 					<div className="flex items-center">
-						<p>Status: {game.status}</p>
+						<p>Status: {formData.status}</p>
 						<span
-							className={`ml-2 inline-block h-3 w-3 rounded-full mr-2 ${game.status === 'Ready' ? 'bg-green-500' : 'bg-orange-500'}`}
+							className={`ml-2 inline-block h-3 w-3 rounded-full mr-2 ${formData.status === 'Ready' ? 'bg-green-500' : 'bg-orange-500'}`}
 						></span>
 					</div>
 				)} */}

@@ -10,7 +10,7 @@ import { GameGetSchema } from '@/model/games/types'
 export default function GamesRoute() {
 	const gamesQuery = useQuery<GameGetSchema[]>({ queryKey: ['api/game'] })
 	// const userQuery = useQuery<UserGetSchema[]>({ queryKey: ['api/user']})
-	// console.log(userQuery.data);
+	// console.log(gamesQuery.data?.name);
 
 	return (
 		<div className="list my-12">
