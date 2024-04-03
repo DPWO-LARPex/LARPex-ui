@@ -9,8 +9,6 @@ import { GameGetSchema } from '@/model/games/types'
 
 export default function GamesRoute() {
 	const gamesQuery = useQuery<GameGetSchema[]>({ queryKey: ['api/game'] })
-	// const userQuery = useQuery<UserGetSchema[]>({ queryKey: ['api/user']})
-	// console.log(gamesQuery.data?.name);
 
 	return (
 		<div className="list my-12">
@@ -26,9 +24,9 @@ export default function GamesRoute() {
 						<h2 className="text-xl md:text-5xl text-center text-white tracking-wider">
 							{game.name}
 						</h2>
-						<p className="text-center text-base">[autor]</p>
+						{/* <p className="text-center text-base">[autor]</p> */}
 						<div className="m-6 space-y-2">
-							<p>Liczba graczy: 5 - {game.max_players_number}</p>
+							<p>Maksymalna liczba graczy: {game.max_players_number}</p>
 							<div className="flex items-center">
 								<p className="mr-2">Poziom trudności:</p>
 								{[...Array(5)].map((_, i) => (
@@ -45,7 +43,7 @@ export default function GamesRoute() {
 					<div className="image w-3/5 relative group">
 						<img
 							className="object-cover object-top h-64 w-full transition duration-500 ease-in-out group-hover:opacity-50"
-							src=""
+							src="https://image.jimcdn.com/app/cms/image/transf/dimension=2080x10000:format=jpg/path/s2217cd0bb1220415/image/i968752087e48ef2a/version/1694723212/greatest-medieval-battles.jpg"
 							alt={game.name}
 						/>
 						<Link
