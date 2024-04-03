@@ -11,6 +11,7 @@ import { usePayment } from '@/context/PaymentContext'
 
 const PRICE = 500
 const USER_ID = 1
+// prettier-ignore
 
 export default function EventForm() {
 	// const { id } = useParams()
@@ -54,14 +55,14 @@ export default function EventForm() {
 
 	const handleEventChange =
 		(field: keyof EventPostSchema) =>
-		(
-			e: React.ChangeEvent<
-				HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-			>,
-		) => {
-			const { value } = e.target
-			setEvent(prev => ({ ...prev, [field]: value }))
-		}
+			(
+				e: React.ChangeEvent<
+					HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+				>,
+			) => {
+				const { value } = e.target
+				setEvent(prev => ({ ...prev, [field]: value }))
+			}
 
 	const handleSubmit = () => {
 		mutation.mutate(event)
@@ -78,7 +79,7 @@ export default function EventForm() {
 					/>
 				) : (
 					<p className="text-center text-gray-500">
-						Enter a URL in the input field to display the corresponding image.
+						Wprowadź adres URL w polu wejściowym, aby wyświetlić odpowiadający obraz.
 					</p>
 				)}
 			</div>

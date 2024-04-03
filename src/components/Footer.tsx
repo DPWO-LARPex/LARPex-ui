@@ -1,10 +1,11 @@
+// prettier-ignore
 export default function Footer() {
 	return (
 		<footer className="footer footer-center p-10 bg-red-500 text-base-content rounded text-white">
 			<nav className="grid grid-flow-col gap-4">
-				<a className="link link-hover">About us</a>
-				<a className="link link-hover">Contact</a>
-				<a className="link link-hover">Jobs</a>
+				<a className="link link-hover">O nas</a>
+				<a className="link link-hover">Kontakt</a>
+				<a className="link link-hover">Pracuj z nami</a>
 				<a className="link link-hover">Press kit</a>
 			</nav>
 			<nav>
@@ -45,7 +46,9 @@ export default function Footer() {
 				</div>
 			</nav>
 			<aside>
-				<p>Copyright © 2024 - All right reserved by ACME Industries Ltd</p>
+				<p>
+					Copyright © 2024 - Wszelkie prawa zastrzeżone przez ACME Industries Ltd.
+				</p>
 			</aside>
 		</footer>
 	)

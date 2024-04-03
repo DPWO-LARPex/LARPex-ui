@@ -41,14 +41,14 @@ export default function GameForm() {
 				{formData?.imageUrl ? (
 					<img src={formData.imageUrl} alt="Game" className="object-cover h-full w-full" />
 				) : (
-					<p className="text-center text-gray-500">Enter a URL in the input field to display the corresponding image.</p>
+					<p className="text-center text-gray-500">Wprowadź adres URL w polu wejściowym, aby wyświetlić odpowiadający obraz.</p>
 				)}
 			</div>
 
 			<form className="flex flex-col gap-4 bg-stone-900 py-12 px-40" onSubmit={handleSubmit}>
 				<div className="form-control">
 					<label className="label">
-						<span className="label-text">Image URL</span>
+						<span className="label-text">Adres URL obrazu</span>
 					</label>
 					<input
 						value={formData?.imageUrl || ''}
@@ -60,7 +60,7 @@ export default function GameForm() {
 				<div className="flex justify-between">
 					<div className="w-1/2 pr-12">
 						<label className="label">
-							<span className="label-text">Game Title</span>
+							<span className="label-text">Tytuł</span>
 						</label>
 						<input
 							value={formData?.name || ''}
@@ -71,7 +71,7 @@ export default function GameForm() {
 
 					<div className="w-1/2 pl-12">
 						<label className="label">
-							<span className="label-text">Author</span>
+							<span className="label-text">Autor</span>
 						</label>
 						<input
 							value={formData?.author || ''}
@@ -84,7 +84,7 @@ export default function GameForm() {
 				<div className="flex justify-between">
 					<div className="w-1/2 pr-12">
 						<label className="label">
-							<span className="label-text">Max. number of players</span>
+							<span className="label-text">Minimalna liczba graczy</span>
 						</label>
 						<input
 							value={formData?.max_players_number || ''}
@@ -97,7 +97,7 @@ export default function GameForm() {
 
 					<div className="w-1/2 pl-12">
 						<label className="label">
-							<span className="label-text">Max. number of players</span>
+							<span className="label-text">Maksymalna liczba graczy</span>
 						</label>
 						<input
 							value={formData?.max_players_number || ''}
@@ -111,7 +111,7 @@ export default function GameForm() {
 
 				<div className='mx-auto text-center'>
 					<label className="label">
-						<span className="label-text">Difficulty level</span>
+						<span className="label-text">Poziom trudności</span>
 					</label>
 					<div id="difficultyLevel" className="flex items-center">
 						{[1, 2, 3, 4, 5].map(level => (
@@ -130,7 +130,7 @@ export default function GameForm() {
 
 				<div>
 					<label className="label">
-						<span className="label-text">Description</span>
+						<span className="label-text">Opis</span>
 					</label>
 					<textarea
 						value={formData?.description || ''}
@@ -161,10 +161,10 @@ export default function GameForm() {
 
 				<div className="flex justify-center">
 					<Link to="/avgames" className="mx-4">
-						<button className="btn bg-white text-black hover:bg-gray-500">Cancel</button>
+						<button className="btn bg-white text-black hover:bg-gray-500">Anuluj</button>
 					</Link>
 					<button type="submit" className="bg-red-600 hover:bg-red-800 text-white btn mx-4">
-						Save
+						Zapisz
 					</button>
 				</div>
 			</form>

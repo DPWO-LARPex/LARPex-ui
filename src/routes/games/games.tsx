@@ -16,7 +16,7 @@ export default function GamesRoute() {
 		<div className="list my-12">
 			<Link to="./create">
 				<div className="addGame text-stone-300 flex justify-center items-center h-20 border-2 border-stone-300 bg-stone-900 hover:bg-stone-300 hover:text-stone-900">
-					Add new game
+					Dodaj nową grę
 				</div>
 			</Link>
 
@@ -26,11 +26,11 @@ export default function GamesRoute() {
 						<h2 className="text-xl md:text-5xl text-center text-white tracking-wider">
 							{game.name}
 						</h2>
-						<p className="text-center text-base">By [author]</p>
+						<p className="text-center text-base">[autor]</p>
 						<div className="m-6 space-y-2">
-							<p>Number of players: 5 - {game.max_players_number}</p>
+							<p>Liczba graczy: 5 - {game.max_players_number}</p>
 							<div className="flex items-center">
-								<p className="mr-2">Difficulty level:</p>
+								<p className="mr-2">Poziom trudności:</p>
 								{[...Array(5)].map((_, i) => (
 									<LuSwords
 										key={i}
@@ -49,10 +49,10 @@ export default function GamesRoute() {
 							alt={game.name}
 						/>
 						<button className="btn text-stone-200 bg-stone-900 hover:bg-stone-200 hover:border-stone-200 hover:text-stone-900 absolute top-1/2 left-1/3 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out">
-							<Link to={`./${game.game_id}`}>More info</Link>
+							<Link to={`./${game.game_id}`}>Więcej</Link>
 						</button>
 						<button className="btn text-stone-200 bg-stone-900 hover:bg-stone-200 hover:border-stone-200 hover:text-stone-900 absolute top-1/2 left-2/3 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out">
-							<Link to={`./edit/${game.game_id}`}>Edit</Link>
+							<Link to={`./edit/${game.game_id}`}>Edytuj</Link>
 						</button>
 					</div>
 				</div>

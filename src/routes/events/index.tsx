@@ -37,7 +37,7 @@ export default function EventsRoute() {
 		<div className="list my-12">
 			<Link to="./edit">
 				<div className="addGame text-stone-300 flex justify-center items-center h-20 border-2 border-stone-300 bg-stone-900 hover:bg-stone-300 hover:text-stone-900">
-					Add new event
+					Dodaj nowe wydarzenie
 				</div>
 			</Link>
 			{events.map((event: Event, index: number) => (
