@@ -4,11 +4,12 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { PlaceGetSchema } from '@/model/places/types'
 import Input, { Label } from '@/components/Input'
 import { formatCurrencyAmount } from '@/utils'
-import { PaymentMethodGetSchema } from '@/model/paymentsGateway/types'
+
 import { sendEvent } from '@/model/events'
 import { useNavigate, useParams } from 'react-router-dom'
 import { usePayment } from '@/context/PaymentContext'
 import dayjs from 'dayjs'
+import PaymentMethod from '@/components/PaymentMethod'
 
 const PRICE = 500
 const USER_ID = 1
@@ -30,9 +31,7 @@ export default function EventForm() {
 		}
 	}, [eventQuery.data])
 	const placesQuery = useQuery<PlaceGetSchema[]>({ queryKey: ['api/place'] })
-	const paymentsMethods = useQuery<PaymentMethodGetSchema[]>({
-		queryKey: ['pay-api/payment-gateway'],
-	})
+
 	const queryClient = useQueryClient()
 	const [event, setEvent] = useState<EventPostSchema>({
 		client_description: '',
@@ -194,26 +193,10 @@ export default function EventForm() {
 								<p>{formatCurrencyAmount(PRICE)}</p>
 							</div>
 
-							<div>
-								<p>Metoda płatności</p>
-								{paymentsMethods.data?.map(payment => {
-									return (
-										<div key={payment.id} className="flex gap-5">
-											<input
-												type="radio"
-												name="payment"
-												id={payment.id?.toString()}
-												checked={payment.id === paymentId}
-												onChange={() => setPaymentId(payment.id || 0)}
-											/>
-											<Label
-												htmlFor={payment.id?.toString()}
-												label={payment.payment_name}
-											/>
-										</div>
-									)
-								})}
-							</div>
+							<PaymentMethod
+								paymentId={paymentId}
+								setPaymentId={setPaymentId}
+							/>
 						</>
 					) : null}
 				</div>

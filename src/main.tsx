@@ -20,6 +20,7 @@ import GameForm from './routes/games/gameForm.tsx'
 import EventsRoute from './routes/events/index.tsx'
 import EventForm from './routes/events/eventForm.tsx'
 import EventDetails from './routes/events/eventDetails.tsx'
+import Shop from './routes/shop/index.tsx'
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -83,6 +84,7 @@ const router = createBrowserRouter([
 					{ path: '/events/edit', element: <EventForm /> },
 					{ path: '/events/edit/:id', element: <EventForm /> },
 					{ path: '/events/:id', element: <EventDetails /> },
+					{ path: '/shop', element: <Shop /> },
 				],
 			},
 		],
