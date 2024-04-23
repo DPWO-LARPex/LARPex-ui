@@ -58,7 +58,7 @@ export default function PlayerRoute() {
 								Mapa
 							</button>
 						</Link>
-						<Link to="/state">
+						<Link to="/player/state">
 							<button className="mb-5 w-32 bg-red-600 hover:bg-red-800 text-white btn mx-4">
 								Stan gry
 							</button>
