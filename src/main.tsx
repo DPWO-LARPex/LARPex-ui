@@ -20,6 +20,7 @@ import GameForm from './routes/games/gameForm.tsx'
 import EventsRoute from './routes/events/index.tsx'
 import EventForm from './routes/events/eventForm.tsx'
 import PlayerRoute from './routes/player/index.tsx'
+import RegisterForm from './routes/events/registerForm.tsx'
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -82,6 +83,7 @@ const router = createBrowserRouter([
 					{ path: '/events', element: <EventsRoute /> },
 					{ path: '/events/edit', element: <EventForm /> },
 					{ path: '/events/edit/:id', element: <EventForm /> },
+					{ path: '/events/register/:id', element: <RegisterForm />},
 					{ path: '/player', element: <PlayerRoute /> },
 				],
 			},
