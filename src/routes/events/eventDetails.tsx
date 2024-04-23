@@ -2,11 +2,13 @@ import { EventPostSchema } from '@/model/events/types'
 import { PlaceGetSchema } from '@/model/places/types'
 import { formatCurrencyAmount } from '@/utils'
 import { useQuery } from '@tanstack/react-query'
+import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 
 export default function EventDetails() {
 	const { id } = useParams()
 
+	const [isHintViewOpen, setHintViewOpen] = useState(false)
 	const eventQuery = useQuery<EventPostSchema>({
 		queryKey: ['api/event', id],
 	})
@@ -64,8 +66,21 @@ export default function EventDetails() {
 						<p>Lista graczy</p>
 						...
 					</div>
-					<div className="flex flex-col w-3/5 gap-3">
-						<button className="btn">Poproś o podpowiedź</button>
+					<div className="flex flex-col w-3/5 gap-5 bg-slate-800 p-3">
+						<div className="flex flex-col gap-3">
+							<button
+								className="btn"
+								onClick={() => setHintViewOpen(prev => !prev)}
+							>
+								{isHintViewOpen ? 'Zakończ prośbę' : 'Prośba o podpowiedź'}
+							</button>
+							{isHintViewOpen ? (
+								<>
+									<textarea className="textarea"></textarea>
+									<button className="btn">Wyślij</button>
+								</>
+							) : null}
+						</div>
 						<div className="flex justify-between">
 							<button className="btn">Uruchom</button>
 							<button className="btn">Wstrzymaj</button>
@@ -83,12 +98,12 @@ const getEventStatus = (status: number | undefined) => {
 		case 1:
 			return { children: 'W trakcie', color: 'bg-green-500' }
 		case 2:
-			return { children: 'Wstrzymany', color: 'bg-orange-500' }
+			return { children: 'Wstrzymane', color: 'bg-yellow-500' }
 		case 3:
-			return { children: 'Zakończony', color: 'bg-red-500' }
+			return { children: 'Zakończone', color: 'bg-red-500' }
 		case 4:
 		default:
-			return { children: 'Nie uruchomiony', color: 'bg-gray-500' }
+			return { children: 'Niezaczęte', color: 'bg-gray-500' }
 	}
 }
 
