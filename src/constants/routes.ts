@@ -3,4 +3,5 @@ export const ROUTES = {
 	EVENTS: '/events',
 	AV_GAMES: '/avGames',
 	SHOP: '/shop',
+	PLAYER: '/player',
 }

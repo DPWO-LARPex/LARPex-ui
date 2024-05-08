@@ -35,6 +35,9 @@ export default function Navbar() {
 						<li>
 							<NavLink to={ROUTES.EVENTS}>Wydarzenia</NavLink>
 						</li>
+						<li>
+							<NavLink to={ROUTES.PLAYER}>Panel gracza</NavLink>
+						</li>
 					</ul>
 				</div>
 				<a className="btn btn-ghost text-xl">LARPex</a>
@@ -50,6 +53,9 @@ export default function Navbar() {
 					</li>
 					<li>
 						<NavLink to={ROUTES.SHOP}>Sklep</NavLink>
+					</li>
+					<li>
+						<NavLink to={ROUTES.PLAYER}>Panel gracza</NavLink>
 					</li>
 				</ul>
 			</div>
