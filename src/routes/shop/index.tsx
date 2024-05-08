@@ -1,33 +1,27 @@
 import PaymentMethod from '@/components/PaymentMethod'
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const mockedItems = [
-	{
-		id: '12',
-		ammount: 100,
-		price: 10,
-	},
-	{
-		id: '1',
-		ammount: 500,
-		price: 50,
-	},
-	{
-		id: '124',
-		ammount: 1000,
-		price: 100,
-	},
-]
+type MicrostoreItems = {
+	id: number
+	name: string
+	description: string
+	price: number
+}
 
 export default function Shop() {
 	const navigate = useNavigate()
-	const [selectedItem, setSelectedItem] = useState('')
+	const [selectedItem, setSelectedItem] = useState<number | null>(null)
 	const [paymentId, setPaymentId] = useState<number>(0)
 
-	const handleSelectItem = (id: string) => {
+	const storeItemsQuery = useQuery<MicrostoreItems[]>({
+		queryKey: ['api/microstore/items'],
+	})
+
+	const handleSelectItem = (id: number) => {
 		if (selectedItem === id) {
-			return setSelectedItem('')
+			return setSelectedItem(null)
 		}
 		setSelectedItem(id)
 	}
@@ -39,11 +33,11 @@ export default function Shop() {
 	return (
 		<div className="my-12 px-28 py-12 flex flex-col gap-3">
 			<div className="flex gap-5 justify-between flex-wrap">
-				{mockedItems.map(({ ammount, price, id }) => (
+				{storeItemsQuery.data?.map(({ name, price, id, description }) => (
 					<div className="card w-96 bg-base-100 shadow-xl" key={id}>
 						<div className="card-body">
-							<h2 className="card-title">Wirtualna waluta</h2>
-							<h3 className="card-title">{ammount} monet</h3>
+							<h2 className="card-title">{name}</h2>
+							<h3 className="card-title">{description}</h3>
 							<p>{price}$</p>
 							<div className="card-actions justify-start">
 								<button

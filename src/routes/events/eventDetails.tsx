@@ -1,14 +1,21 @@
+import { runEventAction, sendQuestion } from '@/model/events'
 import { EventPostSchema } from '@/model/events/types'
 import { PlaceGetSchema } from '@/model/places/types'
 import { formatCurrencyAmount } from '@/utils'
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 
+type EventStatus = {
+	id: string
+	name: 'not_started' | 'ongoing' | 'paused' | 'ended'
+}
+
 export default function EventDetails() {
-	const { id } = useParams()
+	const { id = '0' } = useParams()
 
 	const [isHintViewOpen, setHintViewOpen] = useState(false)
+	const queryClient = useQueryClient()
 	const eventQuery = useQuery<EventPostSchema>({
 		queryKey: ['api/event', id],
 	})
@@ -16,12 +23,41 @@ export default function EventDetails() {
 		queryKey: ['api/place', eventQuery.data?.id_place],
 		enabled: Boolean(eventQuery.data),
 	})
-
 	const event = eventQuery.data
+	const eventStatusQuery = useQuery<EventStatus>({
+		queryKey: ['api/event_status', event?.id_status],
+		enabled: Boolean(event),
+	})
+
+	const [question, setQuestion] = useState('')
+
+	const questionMutation = useMutation({
+		mutationFn: sendQuestion,
+	})
+
+	const eventActionMutation = useMutation({
+		mutationFn: runEventAction,
+		onSuccess: () => {
+			queryClient.invalidateQueries({
+				queryKey: ['api/event', id],
+			})
+		},
+	})
+
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault()
+		questionMutation.mutate({
+			event_id: Number(id) ?? 0,
+			user_id: 1,
+			content: question,
+		})
+	}
 
 	if (!eventQuery.isSuccess) return <div>Loading...</div>
 
-	const eventStatus = getEventStatus(event?.id_status)
+	const eventStatus = getEventStatus(eventStatusQuery.data?.name)
+
+	const numericId = Number(id)
 
 	return (
 		<div className="my-12 px-28 py-12 flex flex-col gap-3">
@@ -74,17 +110,44 @@ export default function EventDetails() {
 							>
 								{isHintViewOpen ? 'Zakończ prośbę' : 'Prośba o podpowiedź'}
 							</button>
+							{questionMutation.isSuccess ? <p>Wysłano prośbę</p> : null}
 							{isHintViewOpen ? (
-								<>
-									<textarea className="textarea"></textarea>
-									<button className="btn">Wyślij</button>
-								</>
+								<form onSubmit={handleSubmit}>
+									<textarea
+										value={question}
+										onChange={e => setQuestion(e.target.value)}
+										className="textarea"
+									></textarea>
+									<button className="btn" type="submit">
+										Wyślij
+									</button>
+								</form>
 							) : null}
 						</div>
 						<div className="flex justify-between">
-							<button className="btn">Uruchom</button>
+							<button
+								className="btn"
+								onClick={() =>
+									eventActionMutation.mutate({
+										id: numericId,
+										action: 'launch',
+									})
+								}
+							>
+								Uruchom
+							</button>
 							<button className="btn">Wstrzymaj</button>
-							<button className="btn">Zakończ</button>
+							<button
+								className="btn"
+								onClick={() =>
+									eventActionMutation.mutate({
+										id: numericId,
+										action: 'end',
+									})
+								}
+							>
+								Zakończ
+							</button>
 						</div>
 					</div>
 				</div>
@@ -93,15 +156,15 @@ export default function EventDetails() {
 	)
 }
 
-const getEventStatus = (status: number | undefined) => {
+const getEventStatus = (status: EventStatus['name'] | undefined) => {
 	switch (status) {
-		case 1:
+		case 'ongoing':
 			return { children: 'W trakcie', color: 'bg-green-500' }
-		case 2:
+		case 'paused':
 			return { children: 'Wstrzymane', color: 'bg-yellow-500' }
-		case 3:
+		case 'ended':
 			return { children: 'Zakończone', color: 'bg-red-500' }
-		case 4:
+		case 'not_started':
 		default:
 			return { children: 'Niezaczęte', color: 'bg-gray-500' }
 	}
