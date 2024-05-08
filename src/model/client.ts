@@ -21,7 +21,8 @@ const handleOtherErrors = async (response: Response) => {
 const handleResponse = async <T>(response: Response) => {
 	await handle401Response(response)
 	const data = await handleSuccessResponse<T>(response)
-	if (data) {
+
+	if (data !== undefined) {
 		return data
 	}
 	await handleOtherErrors(response)

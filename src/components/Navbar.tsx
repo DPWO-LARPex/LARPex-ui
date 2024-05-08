@@ -52,6 +52,9 @@ export default function Navbar() {
 						<NavLink to={ROUTES.EVENTS}>Wydarzenia</NavLink>
 					</li>
 					<li>
+						<NavLink to={ROUTES.SHOP}>Sklep</NavLink>
+					</li>
+					<li>
 						<NavLink to={ROUTES.PLAYER}>Panel gracza</NavLink>
 					</li>
 				</ul>
