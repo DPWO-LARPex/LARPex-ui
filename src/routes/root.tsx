@@ -1,14 +1,15 @@
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
 import { useEffect, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
+import { BarcodeDetector } from 'barcode-detector/pure'
 
 function Root() {
 	const [isCameraOpen, setCameraOpen] = useState(false)
 	const camRef = useRef<HTMLVideoElement>(null)
 	const [stream, setStream] = useState<MediaStream | null>(null)
-	const [scannedQrCode, setScannedQrCode] = useState<string>('')
-	const navigate = useNavigate()
+	const [, setScannedQrCode] = useState<string>('')
+	// const navigate = useNavigate()
 
 	const handleOpenCamera = async () => {
 		setCameraOpen(true)
@@ -44,17 +45,14 @@ function Root() {
 			const barcodes = await barcodeDetector.detect(videoEl)
 			if (barcodes[0]?.rawValue) {
 				setScannedQrCode(barcodes[0]?.rawValue)
+				window.alert(barcodes[0]?.rawValue)
 				clearInterval(intervalId)
 				return
 			}
-		})
+		}, 1000)
 
-		;() => clearInterval(intervalId)
+		return () => clearInterval(intervalId)
 	}, [isCameraOpen])
-
-	useEffect(() => {
-		if (!scannedQrCode) navigate(scannedQrCode)
-	}, [scannedQrCode, navigate])
 
 	return (
 		<>
