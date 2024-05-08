@@ -1,7 +1,61 @@
 import Footer from '@/components/Footer'
 import Navbar from '@/components/Navbar'
+import { useEffect, useRef, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 function Root() {
+	const [isCameraOpen, setCameraOpen] = useState(false)
+	const camRef = useRef<HTMLVideoElement>(null)
+	const [stream, setStream] = useState<MediaStream | null>(null)
+	const [scannedQrCode, setScannedQrCode] = useState<string>('')
+	const navigate = useNavigate()
+
+	const handleOpenCamera = async () => {
+		setCameraOpen(true)
+		setStream(
+			await navigator.mediaDevices.getUserMedia({
+				video: {
+					facingMode: { ideal: 'environment' },
+				},
+				audio: false,
+			}),
+		)
+	}
+
+	useEffect(() => {
+		if (!camRef.current || !stream) return
+
+		const camEl = camRef.current
+		if (!camEl) return
+		camEl.srcObject = stream
+		camEl.play()
+	}, [isCameraOpen, stream])
+
+	const handleCloseCamera = () => {
+		setCameraOpen(false)
+		setStream(null)
+	}
+
+	useEffect(() => {
+		const videoEl = camRef.current
+		if (!isCameraOpen || !videoEl) return
+		const barcodeDetector = new BarcodeDetector({ formats: ['qr_code'] })
+		const intervalId = window.setInterval(async () => {
+			const barcodes = await barcodeDetector.detect(videoEl)
+			if (barcodes[0]?.rawValue) {
+				setScannedQrCode(barcodes[0]?.rawValue)
+				clearInterval(intervalId)
+				return
+			}
+		})
+
+		;() => clearInterval(intervalId)
+	}, [isCameraOpen])
+
+	useEffect(() => {
+		if (!scannedQrCode) navigate(scannedQrCode)
+	}, [scannedQrCode, navigate])
+
 	return (
 		<>
 			<div className="rootImg " />
@@ -19,7 +73,7 @@ function Root() {
 							Zarezerwuj
 						</button>
 					</div>
-					<div className="flex justify-center item w-full h-[25%] xl:h-1/5 bg-black border-y-white border-y-2">
+					<div className="flex justify-center items-center flex-col w-full min-h-[25%] xl:h-1/5 bg-black border-t-white border-t-2">
 						<div className="flex flex-col items-center md:w-3/5">
 							<div className="divider divider-error text-red-600 font-semibold md:text-xl italic">
 								DEKRETEM KRÓLEWSKIM
@@ -30,7 +84,25 @@ function Root() {
 								i ich majestatyczne konie.
 							</p>
 						</div>
+						<div className="flex pt-5 gap-5">
+							<div className="navbar-end">
+								<button
+									onClick={isCameraOpen ? handleCloseCamera : handleOpenCamera}
+									className="btn bg-red-500 hover:bg-red-600 text-white"
+								>
+									Skanuj kod QR
+								</button>
+							</div>
+							<div className="navbar-end">
+								<button className="btn bg-red-500 hover:bg-red-600 text-white">
+									Skanuj NFC
+								</button>
+							</div>
+						</div>
 					</div>
+					{isCameraOpen && (
+						<video ref={camRef} id="stream" className="w-full h-[400px]" />
+					)}
 				</div>
 				<div className="h-full w-full flex flex-col bg-stone-950 bg-opacity-50 justify-center items-center gap-5">
 					<div className="flex flex-col md:flex-row h-full w-full bg-stone-900 ">
