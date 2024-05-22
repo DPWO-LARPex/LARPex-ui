@@ -1,22 +1,24 @@
+/* eslint-disable */
+
 import { useState } from 'react'
 import { RegisterFormSchema } from '@/model/events/types'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import Input from '@/components/Input'
 
 export default function RegisterForm() {
-	// const { id } = useParams()
+	const { event_id } = useParams()
 	const navigator = useNavigate()
 
 	const handleEventChange =
 		(field: keyof RegisterFormSchema) =>
-		(
-			e: React.ChangeEvent<
-				HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-			>,
-		) => {
-			const { value } = e.target
-			setEvent(prev => ({ ...prev, [field]: value }))
-		}
+			(
+				e: React.ChangeEvent<
+					HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+				>,
+			) => {
+				const { value } = e.target
+				setEvent(prev => ({ ...prev, [field]: value }))
+			}
 
 	const [event, setEvent] = useState<RegisterFormSchema>({
 		name: '',
@@ -24,7 +26,53 @@ export default function RegisterForm() {
 		email: '',
 	})
 
-	const handleSubmit = () => {}
+	const [errors, setErrors] = useState<string[]>([]);
+
+	const validateInput = () => {
+		const errors = [];
+
+		if (!event.name) {
+			errors.push('Name is required');
+		}
+
+		if (!event.surname) {
+			errors.push('Surname is required');
+		}
+
+		if (!event.email) {
+			errors.push('Email is required');
+		} else if (!/\S+@\S+\.\S+/.test(event.email)) {
+			errors.push('Email is invalid');
+		}
+
+		return errors;
+	}
+
+
+	const handleSubmit = async () => {
+		const errors = validateInput();
+
+		if (errors.length > 0) {
+			// Set the errors state
+			setErrors(errors);
+			return;
+		}
+		
+		const response = await fetch(`/api/event/${event_id}/join`, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(event)
+		});
+
+		if (!response.ok) {
+			console.error('Failed to post data');
+			return;
+		}
+
+		navigator('/payment');
+	}
 
 	return (
 		<div className="bg-stone-900 m-12 p-12 items-center flex flex-col">
@@ -57,6 +105,11 @@ export default function RegisterForm() {
 						}}
 					/>
 				</div>
+			</div>
+			<div>
+				{errors.map((error, index) => (
+					<p key={index} style={{ color: 'red' }}>{error}</p>
+				))}
 			</div>
 			<div className="flex gap-3 justify-center">
 				<button
