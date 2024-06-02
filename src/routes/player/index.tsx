@@ -1,5 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Link } from "react-router-dom"
+import { useState } from 'react';
 
 const playerData = {
 	name: "Jan Kowalski",
@@ -16,6 +17,26 @@ const gameData = {
 }
 
 export default function PlayerRoute() {
+	const [isHintVisible, setIsHintVisible] = useState(false);
+	const [hintText, setHintText] = useState('');
+	const [isHintRequestSent, setIsHintRequestSent] = useState(false);
+
+	const handleHintClick = () => {
+		setIsHintVisible(!isHintVisible);
+		setIsHintRequestSent(false);
+	}
+
+	const handleHintChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+		setHintText(event.target.value);
+	}
+
+	const handleSubmitHint = () => {
+		console.log("Wysłano odpowiedź: ", hintText);
+		setHintText('');
+		setIsHintVisible(false);
+		setIsHintRequestSent(true);
+	}
+
 	return (
 		<div className="mx-32 my-12">
 			<div id="player" className="bg-stone-900 flex items-center">
@@ -43,13 +64,33 @@ export default function PlayerRoute() {
 					/>
 					<h1 className="text-white text-3xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  ">{gameData.title}</h1>
 				</div>
-				
+
 				<div className="flex mr-12 mt-12">
 					<div className="w-4/5 px-36">
 						<h1 className="text-3xl text-stone-200 mb-5">{gameData.character.name}</h1>
 						<div className="text-stone-200">
 							{gameData.character.description}
 						</div>
+
+						<button className={`w-full ${isHintVisible ? 'bg-gray-600 hover:bg-gray-800' : 'bg-red-600 hover:bg-red-800'} text-white btn my-10`} onClick={handleHintClick}>
+							{isHintVisible ? 'Anuluj prośbę o podpowiedź' : 'Poproś o podpowiedź'}
+						</button>
+
+						{isHintVisible && (
+							<>
+								<textarea
+									className="w-full h-20 my-4 bg-white text-black"
+									value={hintText}
+									onChange={handleHintChange}></textarea>
+								<button className="w-full bg-red-600 hover:bg-red-800 text-white btn my-4" onClick={handleSubmitHint}>
+									Wyślij odpowiedź
+								</button>
+							</>
+						)}
+
+						{isHintRequestSent && (
+							<p className="text-center text-green-500">Prośba została wysłana</p>
+						)}
 					</div>
 
 					<div className="w-1/5">
@@ -75,7 +116,6 @@ export default function PlayerRoute() {
 						</Link>
 					</div>
 				</div>
-
 			</div>
 		</div>
 	)
