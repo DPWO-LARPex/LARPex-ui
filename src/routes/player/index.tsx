@@ -11,7 +11,7 @@ const gameData = {
 	title: "tytuł gry",
 	character: {
 		name: "Gerald z Rivii",
-		description: "Lorem ipsum"
+		description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. In vel turpis porta, dapibus augue at, ultricies risus. In quis lectus lobortis ante tempus laoreet eget ut odio. Integer in augue ut tellus iaculis iaculis sit amet non risus. Integer tincidunt tellus sapien, id mollis elit iaculis eget. Donec consequat mi lectus, egestas hendrerit nunc lobortis sed. Pellentesque ut orci congue, sollicitudin nulla at, dignissim nibh. Donec ullamcorper tellus ac cursus fringilla. Suspendisse condimentum sit amet risus in porttitor. Quisque ac diam mi. Cras id tristique justo. "
 	}
 }
 
@@ -45,9 +45,9 @@ export default function PlayerRoute() {
 				</div>
 				
 				<div className="flex mr-12 mt-12">
-					<div className="w-4/5 px-12">
-						<h2 className="mb-5">{gameData.character.name}</h2>
-						<div className="bg-stone-200 h-48">
+					<div className="w-4/5 px-36">
+						<h1 className="text-3xl text-stone-200 mb-5">{gameData.character.name}</h1>
+						<div className="text-stone-200">
 							{gameData.character.description}
 						</div>
 					</div>
