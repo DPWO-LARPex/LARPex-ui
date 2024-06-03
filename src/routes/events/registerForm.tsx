@@ -11,14 +11,14 @@ export default function RegisterForm() {
 
 	const handleEventChange =
 		(field: keyof RegisterFormSchema) =>
-			(
-				e: React.ChangeEvent<
-					HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-				>,
-			) => {
-				const { value } = e.target
-				setEvent(prev => ({ ...prev, [field]: value }))
-			}
+		(
+			e: React.ChangeEvent<
+				HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+			>,
+		) => {
+			const { value } = e.target
+			setEvent(prev => ({ ...prev, [field]: value }))
+		}
 
 	const [event, setEvent] = useState<RegisterFormSchema>({
 		name: '',
@@ -26,52 +26,51 @@ export default function RegisterForm() {
 		email: '',
 	})
 
-	const [errors, setErrors] = useState<string[]>([]);
+	const [errors, setErrors] = useState<string[]>([])
 
 	const validateInput = () => {
-		const errors = [];
+		const errors = []
 
 		if (!event.name) {
-			errors.push('Name is required');
+			errors.push('Name is required')
 		}
 
 		if (!event.surname) {
-			errors.push('Surname is required');
+			errors.push('Surname is required')
 		}
 
 		if (!event.email) {
-			errors.push('Email is required');
+			errors.push('Email is required')
 		} else if (!/\S+@\S+\.\S+/.test(event.email)) {
-			errors.push('Email is invalid');
+			errors.push('Email is invalid')
 		}
 
-		return errors;
+		return errors
 	}
 
-
 	const handleSubmit = async () => {
-		const errors = validateInput();
+		const errors = validateInput()
 
 		if (errors.length > 0) {
 			// Set the errors state
-			setErrors(errors);
-			return;
+			setErrors(errors)
+			return
 		}
-		
+
 		const response = await fetch(`/api/event/${event_id}/join`, {
 			method: 'POST',
 			headers: {
-				'Content-Type': 'application/json'
+				'Content-Type': 'application/json',
 			},
-			body: JSON.stringify(event)
-		});
+			body: JSON.stringify(event),
+		})
 
 		if (!response.ok) {
-			console.error('Failed to post data');
-			return;
+			console.error('Failed to post data')
+			return
 		}
 
-		navigator('/payment');
+		navigator('/payment')
 	}
 
 	return (
@@ -108,7 +107,9 @@ export default function RegisterForm() {
 			</div>
 			<div>
 				{errors.map((error, index) => (
-					<p key={index} style={{ color: 'red' }}>{error}</p>
+					<p key={index} style={{ color: 'red' }}>
+						{error}
+					</p>
 				))}
 			</div>
 			<div className="flex gap-3 justify-center">

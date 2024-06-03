@@ -25,6 +25,7 @@ import PlayerRoute from './routes/player/index.tsx'
 import EquipmentRoute from './routes/player/equipment/equipment.tsx'
 import RegisterForm from './routes/events/registerForm.tsx'
 import PlayerStateRoute from './routes/player/state/state.tsx'
+import Hints from './routes/events/hints.tsx'
 
 const queryClient = new QueryClient({
 	defaultOptions: {
@@ -93,6 +94,7 @@ const router = createBrowserRouter([
 					{ path: '/player', element: <PlayerRoute /> },
 					{ path: '/player/equipment', element: <EquipmentRoute /> },
 					{ path: '/player/state', element: <PlayerStateRoute /> },
+					{ path: '/hints', element: <Hints /> },
 				],
 			},
 		],

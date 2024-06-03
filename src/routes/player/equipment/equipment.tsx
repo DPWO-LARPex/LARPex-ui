@@ -29,9 +29,7 @@ export default function EquipmentRoute() {
 				</div>
 			</div>
 
-			<div
-				className="flex flex-col justify-center items-center mt-12 p-12 bg-stone-900"
-			>
+			<div className="flex flex-col justify-center items-center mt-12 p-12 bg-stone-900">
 				<h1 className="text-white text-3xl justify-center items-center">
 					Stan ekwipunku
 				</h1>
@@ -51,14 +49,12 @@ export default function EquipmentRoute() {
 						))}
 					</div>
 				</div>
-				<Link to="/player" className='flex items-center justify-center pt-8'>
-				<button className=" bg-red-600 hover:bg-red-800 text-white btn mx-4 text-xl">
-					Powrót do panelu gracza
-				</button>
-			</Link>
+				<Link to="/player" className="flex items-center justify-center pt-8">
+					<button className=" bg-red-600 hover:bg-red-800 text-white btn mx-4 text-xl">
+						Powrót do panelu gracza
+					</button>
+				</Link>
 			</div>
-
-
 		</div>
 	)
 }
