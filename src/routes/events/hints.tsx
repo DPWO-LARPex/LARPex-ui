@@ -1,4 +1,14 @@
+// const hintsData = [
+// 	{
+// 		request: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse tellus neque, interdum nec risus sed, efficitur luctus odio. Etiam sit amet viverra erat. Duis nulla orci, mattis at volutpat sagittis, ultricies in erat. Ut aliquet gravida neque, a congue enim rutrum eu."
+// 	},
+// 	{
+// 		request: "Lorem ipsum Lorem ipsum "
+// 	}
+// ]
+
 // prettier-ignore
+const hintsData = []
 
 export default function HintsRoute() {
 	return (
@@ -7,14 +17,20 @@ export default function HintsRoute() {
 				<h2 className="text-white">Lista próśb</h2>
 			</div>
 
-			<div className="bg-white flex justify-between p-4 rounded">
-				<div className="pr-2 text-black">
-					Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum Lorem ipsum
-				</div>
-				<button className="bg-red-600 hover:bg-red-800 text-white btn my-4 border-none">
-					Odpowiedz
-				</button>
-			</div>
+			{hintsData.length > 0 ? (
+				hintsData.map(hint => (
+					<div className="bg-white flex justify-between p-4 rounded mb-4">
+						<div className="pr-2 text-black">{hint.request}</div>
+						<button className="bg-red-600 hover:bg-red-800 text-white btn my-4 border-none">
+							Odpowiedz
+						</button>
+					</div>
+				))
+			) : (
+				<p className="text-white text-center text-2xl">
+					Brak dostępnych próśb o podpowiedź.
+				</p>
+			)}
 		</div>
-	);
+	)
 }
