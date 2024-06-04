@@ -91,7 +91,7 @@ const router = createBrowserRouter([
 					{ path: '/events/:id', element: <EventDetails /> },
 					{ path: '/events/:id/hints', element: <Hints /> },
 					{ path: '/shop', element: <Shop /> },
-					{ path: '/events/register/:id', element: <RegisterForm /> },
+					{ path: '/events/register/:event_id', element: <RegisterForm /> },
 					{ path: '/player', element: <PlayerRoute /> },
 					{ path: '/player/equipment', element: <EquipmentRoute /> },
 					{ path: '/player/state', element: <PlayerStateRoute /> },

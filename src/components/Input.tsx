@@ -20,7 +20,7 @@ export default function Input({
 				type="text"
 				placeholder="Type here"
 				{...inputProps}
-				className={`input input-bordered w-full max-w-xs ${inputProps?.className}`}
+				className={`input input-bordered w-full  ${inputProps?.className}`}
 			/>
 		</div>
 	)
