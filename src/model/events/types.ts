@@ -31,3 +31,10 @@ export type RegisterFormSchema = {
 	surname: string
 	email: string
 }
+
+export type EventCharacters = {
+	character_id: number
+	inventory_capacity: number
+	name: string
+	bio: string
+}
