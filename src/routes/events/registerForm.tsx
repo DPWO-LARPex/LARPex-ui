@@ -87,8 +87,6 @@ export default function RegisterForm() {
 							onChange: handleEventChange('firstname'),
 						}}
 					/>
-				</div>
-				<div className="my-4">
 					<Input
 						label="Nazwisko"
 						inputProps={{
@@ -97,7 +95,7 @@ export default function RegisterForm() {
 						}}
 					/>
 				</div>
-				<div className="my-4">
+				<div className="flex justify-center w-full">
 					<Input
 						label="Email"
 						inputProps={{

@@ -135,7 +135,7 @@ export default function GameForm() {
 							onChange={e =>
 								setFormData({
 									...formData!,
-									max_players_number: e.target.value,
+									max_players_number: Number(e.target.value),
 								})
 							}
 							className="input w-full bg-white text-black input-bordered focus:outline-offset-0"

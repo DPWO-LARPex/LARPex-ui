@@ -25,3 +25,40 @@ export type EventPostSchema = {
 	id_user: number
 	id_place: number
 }
+
+export type RegisterFormSchema = {
+	name: string
+	surname: string
+	email: string
+}
+
+export type UserGetSchema = {
+	user_id: number
+	firstname: string
+	lastname: string
+	email: string
+}
+
+export type PlayerGetSchema = {
+	username: string
+	surname: string
+	nickname: string
+	rank: string
+	character_id: number
+	user_id: number
+}
+
+export type GamesGetSchema = {
+	game_id: number
+	user_id: number
+	name: string
+	description: string
+	max_players_number: number
+	state: string
+	difficulty: string
+	scenario: string
+	maps: {
+		map_id: number
+		game_id: number
+	}[]
+}

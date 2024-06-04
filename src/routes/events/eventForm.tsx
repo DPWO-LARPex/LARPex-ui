@@ -36,7 +36,7 @@ export default function EventForm() {
 		client_description: '',
 		date: '',
 		icon: '',
-		id_place: 0,
+		id_place: 1,
 		id_status: 0,
 		id_user: USER_ID,
 		players_count: 10,
