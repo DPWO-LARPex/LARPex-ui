@@ -3,7 +3,10 @@ import { useQuery } from '@tanstack/react-query'
 import { EventGetSchema } from '@/model/events/types'
 import { formatCurrencyAmount } from '@/utils'
 import dayjs from 'dayjs'
+import { client } from '@/model/client'
 export default function EventsRoute() {
+	const userId = 1
+
 	const {
 		data: events,
 		isLoading,
@@ -15,6 +18,17 @@ export default function EventsRoute() {
 	if (isError) throw new Error('Couldnt load events')
 	if (isLoading)
 		return <div className="flex justify-center p-80">Loading...</div>
+
+	const joinEvent = async ({
+		eventId
+	}: {
+		eventId?: number
+	}) => {
+		return client<{ player_id: number }>(`/api/event/${eventId}/join_event`, {
+			method: 'POST',
+			body: { player_id: userId },
+		})
+	}
 
 	return (
 		<div className="list my-12">
@@ -54,32 +68,35 @@ export default function EventsRoute() {
 						</div>
 					</div>
 
-					<div className="image w-3/5 relative group">
-						<img
-							className="object-cover object-top h-64 w-full transition duration-500 ease-in-out group-hover:opacity-50"
-							src={event.icon ?? ''}
-							alt={event.icon ?? ''}
-						/>
-
-						<Link
-							className="btn text-stone-200 bg-stone-900 hover:bg-stone-200 hover:border-stone-200 hover:text-stone-900 absolute top-1/2 left-1/4 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out"
-							to={`./${event.id}`}
-						>
-							Wyświetl
-						</Link>
-						<Link
-							className="btn text-stone-200 bg-stone-900 hover:bg-stone-200 hover:border-stone-200 hover:text-stone-900 absolute top-1/2 left-2/4 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out"
-							to={`./edit/${event.id}`}
-						>
-							Edytuj
-						</Link>
-						<Link
-							className="btn text-stone-200 bg-stone-900 hover:bg-stone-200 hover:border-stone-200 hover:text-stone-900 absolute top-1/2 left-3/4 transform -translate-x-1/2 -translate-y-1/2 opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out"
-							to={`./register/${event.id}`}
-						>
-							Zapisz się
-						</Link>
+					<div className="image w-3/5 relative group bg-cover bg-center h-64" style={{ backgroundImage: `url(${event.icon ?? ''})` }}>
+						<div className="flex gap-4 justify-center items-center h-full">
+							<Link
+								className="btn text-stone-200 bg-stone-900 hover:bg-stone-200 hover:border-stone-200 hover:text-stone-900 opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out"
+								to={`./${event.id}`}
+							>
+								Wyświetl
+							</Link>
+							<Link
+								className="btn text-stone-200 bg-stone-900 hover:bg-stone-200 hover:border-stone-200 hover:text-stone-900 opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out"
+								to={`./edit/${event.id}`}
+							>
+								Edytuj
+							</Link>
+							<Link
+								className="btn text-stone-200 bg-stone-900 hover:bg-stone-200 hover:border-stone-200 hover:text-stone-900 opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out"
+								to={`./register/${event.id}`}
+							>
+								Zapisz się
+							</Link>
+							<button
+								className="btn text-stone-200 bg-stone-900 hover:bg-stone-200 hover:border-stone-200 hover:text-stone-900 opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out"
+								onClick={() => {joinEvent({ eventId: event.id }); console.log('Joining event', event.id)}}
+							>
+								Dołącz
+							</button>
+						</div>
 					</div>
+
 				</div>
 			))}
 		</div>

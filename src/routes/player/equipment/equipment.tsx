@@ -1,19 +1,12 @@
 /* eslint-disable prettier/prettier */
 import { UserGetSchema } from '@/model/events/types'
+import { ItemGetSchema } from '@/model/players/types'
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 
 
 export default function EquipmentRoute() {
 	const userId = 1
-
-	// const {
-	// 	data: player,
-	// 	isLoading: isUserLoading,
-	// 	isError: isUserError,
-	// } = useQuery<PlayerGetSchema>({
-	// 	queryKey: [`api/player/info-by-uid/${userId}`],
-	// })
 
 	const {
 		data: player,
@@ -22,11 +15,14 @@ export default function EquipmentRoute() {
 	} = useQuery<UserGetSchema>({
 		queryKey: [`api/user/${userId}`],
 	})
+
+		
+	const { data: items } = useQuery<ItemGetSchema[]>({ queryKey: [`api/user/${userId}/bought_items`] })
 	
 	if (isUserError) throw new Error('Couldnt load events')
 		if (isUserLoading)
 			return <div className="flex justify-center p-80">Loading...</div>
-	
+
 	return (
 		<div className="mx-32 my-12">
 			<div id="player" className="bg-stone-900 flex items-center">
@@ -55,15 +51,15 @@ export default function EquipmentRoute() {
 
 				<div className="flex flex-col space-y-10 mt-12 bg-zinc-800 w-full p-10 text-xl">
 					<h2>Liczba przedmiotów</h2>
-					<div>5</div>
+					<div>{items?.length || "No items" }</div>
 					<h2>Posiadane przedmioty</h2>
 					<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-y-10">
-						{[...Array(8)].map((_, index) => (
+						{items && items.map((item , index) => (
 							<div
 								key={index}
 								className="bg-zinc-700 w-40 h-24 flex justify-center items-center mx-auto"
 							>
-								Przedmiot {index + 1}
+								{item.name}
 							</div>
 						))}
 					</div>
