@@ -8,5 +8,6 @@ export type PaymentPostSchema = {
 	amount: number
 	payment_method_id: number
 	user_id: number
-	event_id: number
+	payment_target: 'event' | 'game' | 'microitem'
+	payment_target_id: number
 }

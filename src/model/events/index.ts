@@ -38,3 +38,18 @@ export const runEventAction = ({
 		method: 'POST',
 	})
 }
+
+export type EventFormSign = {
+	firstname: string
+	lastname: string
+	email: string
+	character_id: number
+	payment_id: number
+}
+
+export const signUp = ({ id, event }: { id: string; event: EventFormSign }) => {
+	return client(`/api/event/${id}/sign_up`, {
+		method: 'POST',
+		body: event,
+	})
+}

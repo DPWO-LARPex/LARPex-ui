@@ -11,7 +11,13 @@ export type CardData = {
 }
 
 type Action =
-	| { type: 'setPaymentSetup'; payload: PaymentSetupData }
+	| {
+			type: 'setPaymentSetup'
+			payload: {
+				data: PaymentSetupData
+				actionCallback?: (payment_id: number) => void
+			}
+	  }
 	| { type: 'setCard'; payload: CardData }
 	| { type: 'setSuccess'; payload: boolean }
 
@@ -21,6 +27,7 @@ export type State = {
 	paymentSetup: PaymentSetupData
 	card: CardData
 	isSuccess: boolean | undefined
+	actionCallback?: (payment_id: number) => void
 }
 
 type PaymentProviderProps = { children: React.ReactNode }
@@ -32,9 +39,12 @@ const PaymentStateContext = React.createContext<
 function cartReducer(state: State, action: Action) {
 	switch (action.type) {
 		case 'setPaymentSetup': {
-			return { ...state, paymentSetup: action.payload }
+			return {
+				...state,
+				paymentSetup: action.payload.data,
+				actionCallback: action.payload.actionCallback,
+			}
 		}
-
 		case 'setCard': {
 			return { ...state, card: action.payload }
 		}
@@ -47,8 +57,9 @@ const initialState: State = {
 	isSuccess: undefined,
 	paymentSetup: {
 		amount: 0,
-		event_id: 0,
-		payment_method_id: 0,
+		payment_target: 'event',
+		payment_target_id: 0,
+		payment_method_id: 1,
 		user_id: 0,
 		date: '',
 	},
@@ -59,6 +70,7 @@ const initialState: State = {
 		cardYear: '',
 		cardCvv: '',
 	},
+	actionCallback: undefined,
 }
 
 function PaymentProvider({ children }: PaymentProviderProps) {
