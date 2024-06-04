@@ -10,8 +10,10 @@ import { useNavigate } from 'react-router-dom'
 export default function CardRoute() {
 	const {
 		dispatch,
-		state: { card: contextCard, paymentSetup },
+		state: { card: contextCard, paymentSetup, actionCallback },
 	} = usePayment()
+
+	console.log(contextCard, paymentSetup)
 
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { data } = useQuery<PaymentMethodGetSchema>({
@@ -22,9 +24,12 @@ export default function CardRoute() {
 
 	const navigate = useNavigate()
 
-	const { mutate } = useMutation({
+	const { mutate } = useMutation<{ id: number }>({
 		mutationFn: (body: Parameters<typeof sendPayment>[0]) => sendPayment(body),
-		onSuccess: () => dispatch({ type: 'setSuccess', payload: true }),
+		onSuccess: res => {
+			dispatch({ type: 'setSuccess', payload: true })
+			actionCallback?.(res.id)
+		},
 		onError: () => dispatch({ type: 'setSuccess', payload: false }),
 	})
 

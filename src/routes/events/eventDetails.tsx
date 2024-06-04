@@ -5,7 +5,7 @@ import { formatCurrencyAmount } from '@/utils'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Link, useParams } from 'react-router-dom'
 
-type EventStatus = {
+export type EventStatus = {
 	id: string
 	name: 'not_started' | 'ongoing' | 'paused' | 'ended'
 }
@@ -141,7 +141,7 @@ export default function EventDetails() {
 	)
 }
 
-const getEventStatus = (status: EventStatus['name'] | undefined) => {
+export const getEventStatus = (status: EventStatus['name'] | undefined) => {
 	switch (status) {
 		case 'ongoing':
 			return { children: 'W trakcie', color: 'bg-green-500' }

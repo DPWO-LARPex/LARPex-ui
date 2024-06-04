@@ -25,9 +25,3 @@ export type EventPostSchema = {
 	id_user: number
 	id_place: number
 }
-
-export type RegisterFormSchema = {
-	name: string
-	surname: string
-	email: string
-}
