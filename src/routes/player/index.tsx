@@ -108,8 +108,8 @@ export default function PlayerRoute() {
 						</div>
 
 						<div className="w-1/5">
-							{/* <Link to="/map">
-								<button className="mb-5 w-32 bg-red-600 hover:bg-red-800 text-white btn mx-4">
+							<Link to="/map">
+								<button disabled className="mb-5 w-32 bg-red-600 hover:bg-red-800 text-white btn mx-4">
 									Mapa
 								</button>
 							</Link>
@@ -117,17 +117,17 @@ export default function PlayerRoute() {
 								<button className="mb-5 w-32 bg-red-600 hover:bg-red-800 text-white btn mx-4">
 									Stan gry
 								</button>
-							</Link> */}
+							</Link>
 							<Link to="/player/equipment">
 								<button className="mb-5 w-32 bg-red-600 hover:bg-red-800 text-white btn mx-4">
 									Ekwipunek
 								</button>
 							</Link>
-							{/* <Link to="/rate">
-								<button className="w-32 bg-red-600 hover:bg-red-800 text-white btn mx-4">
+							<Link to="/rate">
+								<button disabled className="w-32 bg-red-600 hover:bg-red-800 text-white btn mx-4">
 									Oceń grę
 								</button>
-							</Link> */}
+							</Link>
 						</div>
 					</div>
 				</div>

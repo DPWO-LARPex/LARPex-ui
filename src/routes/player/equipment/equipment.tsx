@@ -1,6 +1,5 @@
 /* eslint-disable prettier/prettier */
-import { UserGetSchema } from '@/model/events/types'
-import { ItemGetSchema } from '@/model/players/types'
+import { ItemGetSchema, PlayerGetSchema } from '@/model/players/types'
 import { useQuery } from '@tanstack/react-query'
 import { Link } from 'react-router-dom'
 
@@ -8,20 +7,18 @@ import { Link } from 'react-router-dom'
 export default function EquipmentRoute() {
 	const userId = 1
 
-	const {
-		data: player,
-		isLoading: isUserLoading,
-		isError: isUserError,
-	} = useQuery<UserGetSchema>({
-		queryKey: [`api/user/${userId}`],
-	})
+	const { 
+		data: player, 
+		// isLoading: isUserLoading, 
+		// isError: isUserError
+	} = useQuery<PlayerGetSchema>({ queryKey: [`api/player/info-by-uid/${userId}`] })
 
 		
 	const { data: items } = useQuery<ItemGetSchema[]>({ queryKey: [`api/user/${userId}/bought_items`] })
 	
-	if (isUserError) throw new Error('Couldnt load events')
-		if (isUserLoading)
-			return <div className="flex justify-center p-80">Loading...</div>
+	// if (isUserError) throw new Error('Couldnt load events')
+	// 	if (isUserLoading)
+	// 		return <div className="flex justify-center p-80">Loading...</div>
 
 	return (
 		<div className="mx-32 my-12">
@@ -35,12 +32,12 @@ export default function EquipmentRoute() {
 				</div>
 
 				<div className="w-4/5 mx-12">
-					<p className="mb-5">{player?.firstname} {player?.lastname}</p>
+					<p className="mb-5">{player?.nickname}</p>
 					{/* <p>{player?.nickname}</p> */}
 				</div>
 
 				<div className="w-1/5">
-					<p>{player?.email}</p>
+					<p>{player?.rank}</p>
 				</div>
 			</div>
 
