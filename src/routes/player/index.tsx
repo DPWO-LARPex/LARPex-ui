@@ -54,7 +54,7 @@ export default function PlayerRoute() {
 
 	//create usequery to fetch player data drom /api/player/info-by-uid/{user_id} endpoint
 	const { data: player } = useQuery<PlayerGetSchema>({
-		queryKey: [`/api/player/info-by-uid/${userId}`],
+		queryKey: [`api/player/info-by-uid/${userId}`],
 	})
 	console.log(player)
 
