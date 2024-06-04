@@ -57,8 +57,8 @@ export default function EventsRoute() {
 					<div className="image w-3/5 relative group">
 						<img
 							className="object-cover object-top h-64 w-full transition duration-500 ease-in-out group-hover:opacity-50"
-							src={event.icon}
-							alt={event.icon}
+							src={event.icon ?? ''}
+							alt={event.icon ?? ''}
 						/>
 
 						<Link

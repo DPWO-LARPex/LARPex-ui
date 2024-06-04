@@ -1,12 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
-
-const playerData = {
-	name: 'Jan Kowalski',
-	nickname: 'DragonSlayer360NoScope',
-	rank: 'Ranga',
-}
+import { useQuery } from '@tanstack/react-query'
+import { PlayerGetSchema } from '@/model/players/types'
 
 const gameData = {
 	title: 'tytuł gry',
@@ -18,6 +14,7 @@ const gameData = {
 }
 
 export default function PlayerRoute() {
+	const userId = 2
 	const [isHintVisible, setIsHintVisible] = useState(false)
 	const [hintText, setHintText] = useState('')
 	const [isHintRequestSent, setIsHintRequestSent] = useState(false)
@@ -38,6 +35,10 @@ export default function PlayerRoute() {
 		setIsHintRequestSent(true)
 	}
 
+	//create usequery to fetch player data drom /api/player/info-by-uid/{user_id} endpoint
+	const {data: player} = useQuery<PlayerGetSchema>({ queryKey: [`/api/player/info-by-uid/${userId}`] })
+	console.log(player)
+
 	return (
 		<div className="mx-32 my-12">
 			<div id="player" className="bg-stone-900 flex items-center">
@@ -50,12 +51,12 @@ export default function PlayerRoute() {
 				</div>
 
 				<div className="w-4/5 mx-12">
-					<p className="mb-5">{playerData.name}</p>
-					<p>{playerData.nickname}</p>
+					<p className="mb-5">{player?.nickname}</p>
+					{/* <p>{player?.}</p> */}
 				</div>
 
 				<div className="w-1/5">
-					<p>{playerData.rank}</p>
+					<p>{player?.rank}</p>
 				</div>
 			</div>
 

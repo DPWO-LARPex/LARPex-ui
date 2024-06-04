@@ -6,14 +6,29 @@ import { faUser } from '@fortawesome/free-solid-svg-icons/faUser'
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons/faChevronRight'
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons/faChevronDown'
 import { Link } from 'react-router-dom'
+import { useQuery } from '@tanstack/react-query'
+import { UserGetSchema } from '@/model/events/types'
 
-const playerData = {
-	name: 'Jan Kowalski',
-	nickname: 'DragonSlayer360NoScope',
-	rank: 'Ranga',
-}
 
 export default function PlayerStateRoute() {
+	const userId = 1
+
+	// const {
+	// 	data: player,
+	// 	isLoading: isUserLoading,
+	// 	isError: isUserError,
+	// } = useQuery<PlayerGetSchema>({
+	// 	queryKey: [`api/player/info-by-uid/${userId}`],
+	// })
+
+	const {
+		data: player,
+		// isLoading: isUserLoading,
+		// isError: isUserError,
+	} = useQuery<UserGetSchema>({
+		queryKey: [`api/user/${userId}`],
+	})
+
 	return (
 		<div className="mx-32 my-12">
 			<div id="player" className="bg-stone-900 flex items-center">
@@ -26,12 +41,12 @@ export default function PlayerStateRoute() {
 				</div>
 
 				<div className="w-4/5 mx-12">
-					<p className="mb-5">{playerData.name}</p>
-					<p>{playerData.nickname}</p>
+					<p className="mb-5">{player?.firstname} {player?.lastname}</p>
+					<p></p>
 				</div>
 
 				<div className="w-1/5">
-					<p>{playerData.rank}</p>
+					<p>{player?.email}</p>
 				</div>
 			</div>
 
