@@ -3,7 +3,7 @@ import { EventPostSchema } from '@/model/events/types'
 import { PlaceGetSchema } from '@/model/places/types'
 import { formatCurrencyAmount } from '@/utils'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 
 type EventStatus = {
 	id: string
@@ -87,31 +87,49 @@ export default function EventDetails() {
 					</div>
 					<div className="flex flex-col w-3/5 gap-5 p-3">
 						<div className="flex flex-col gap-3">
-							<button className="btn bg-red-600 hover:bg-red-800 text-white">
-								Lista podpowiedzi
-							</button>
+							<Link to="./hints">
+								<button className="w-full btn bg-red-600 hover:bg-red-800 text-white">
+									Prośby o podpowiedzi
+								</button>
+							</Link>
 						</div>
-						<div className="flex justify-between">
+						<div className="flex justify-between space-x-4">
 							<button
-								className="btn"
+								className="btn flex-grow bg-red-600 hover:bg-red-800 text-white"
 								onClick={() =>
 									eventActionMutation.mutate({
 										id: numericId,
 										action: 'launch',
 									})
 								}
+								disabled={eventStatusQuery.data?.name === 'ongoing'}
 							>
 								Uruchom
 							</button>
-							<button className="btn">Wstrzymaj</button>
 							<button
-								className="btn"
+								className="btn flex-grow bg-red-600 hover:bg-red-800 text-white"
+								onClick={() =>
+									eventActionMutation.mutate({
+										id: numericId,
+										action: 'pause',
+									})
+								}
+								disabled={
+									eventStatusQuery.data?.name === 'paused' ||
+									eventStatusQuery.data?.name === 'ended'
+								}
+							>
+								Wstrzymaj
+							</button>
+							<button
+								className="btn flex-grow bg-red-600 hover:bg-red-800 text-white"
 								onClick={() =>
 									eventActionMutation.mutate({
 										id: numericId,
 										action: 'end',
 									})
 								}
+								disabled={eventStatusQuery.data?.name === 'ended'}
 							>
 								Zakończ
 							</button>

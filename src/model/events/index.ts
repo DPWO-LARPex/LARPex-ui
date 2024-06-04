@@ -25,7 +25,7 @@ export const sendQuestion = async (body: {
 	})
 }
 
-type Action = 'launch' | 'end'
+type Action = 'launch' | 'pause' | 'end'
 
 export const runEventAction = ({
 	id,
