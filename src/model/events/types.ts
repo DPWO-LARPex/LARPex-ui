@@ -26,12 +26,6 @@ export type EventPostSchema = {
 	id_place: number
 }
 
-export type RegisterFormSchema = {
-	name: string
-	surname: string
-	email: string
-}
-
 export type EventCharacters = {
 	character_id: number
 	inventory_capacity: number

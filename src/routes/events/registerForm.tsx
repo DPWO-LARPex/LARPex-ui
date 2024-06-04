@@ -1,11 +1,7 @@
 /* eslint-disable */
 
 import { useEffect, useState } from 'react'
-import {
-	EventCharacters,
-	EventPostSchema,
-	RegisterFormSchema,
-} from '@/model/events/types'
+import { EventCharacters, EventPostSchema } from '@/model/events/types'
 import { useNavigate, useParams } from 'react-router-dom'
 import Input from '@/components/Input'
 import { useMutation, useQuery } from '@tanstack/react-query'
@@ -52,7 +48,7 @@ export default function RegisterForm() {
 	}, [selectedCharacterId])
 
 	const handleEventChange =
-		(field: keyof RegisterFormSchema) =>
+		(field: keyof Omit<EventFormSign, 'payment_id'>) =>
 		(
 			e: React.ChangeEvent<
 				HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
@@ -167,7 +163,7 @@ export default function RegisterForm() {
 								label="Imię"
 								inputProps={{
 									value: event.firstname,
-									onChange: handleEventChange('name'),
+									onChange: handleEventChange('firstname'),
 								}}
 							/>
 						</div>
@@ -176,7 +172,7 @@ export default function RegisterForm() {
 								label="Nazwisko"
 								inputProps={{
 									value: event.lastname,
-									onChange: handleEventChange('surname'),
+									onChange: handleEventChange('lastname'),
 								}}
 							/>
 						</div>
