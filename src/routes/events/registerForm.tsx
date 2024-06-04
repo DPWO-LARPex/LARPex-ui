@@ -1,12 +1,12 @@
 /* eslint-disable */
 
 import { useState } from 'react'
-import { EventPostSchema, RegisterFormSchema } from '@/model/events/types'
+import { EventPostSchema } from '@/model/events/types'
 import { useNavigate, useParams } from 'react-router-dom'
 import Input from '@/components/Input'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { EventStatus, getEventStatus } from './eventDetails'
-import { EventFormSign, sendEvent, signUp } from '@/model/events'
+import { EventFormSign, signUp } from '@/model/events'
 import { usePayment } from '@/context/PaymentContext'
 
 export default function RegisterForm() {

@@ -27,7 +27,7 @@ export default function EventsRoute() {
 				<div key={index} className="game flex my-8">
 					<div className="details w-2/5 p-4 bg-stone-900 text-xl">
 						<h2 className="text-xl md:text-5xl text-center text-white tracking-wider">
-							{/* {event.title} */}
+							{event?.id}
 							Wydarzenie
 						</h2>
 						<p className="text-center text-base">{event.client_description}</p>

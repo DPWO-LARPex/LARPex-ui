@@ -12,7 +12,7 @@ import dayjs from 'dayjs'
 import PaymentMethod from '@/components/PaymentMethod'
 
 const PRICE = 500
-const USER_ID = 1
+const USER_ID = 2
 
 export default function EventForm() {
 	const { id } = useParams()
@@ -30,7 +30,6 @@ export default function EventForm() {
 			setTime(dayjs(eventQuery.data.date).format('HH:mm'))
 		}
 	}, [eventQuery.data])
-	const placesQuery = useQuery<PlaceGetSchema[]>({ queryKey: ['api/place'] })
 
 	const queryClient = useQueryClient()
 	const [event, setEvent] = useState<EventPostSchema>({
@@ -45,6 +44,20 @@ export default function EventForm() {
 		price_org: PRICE,
 		tech_desc: '',
 	})
+
+	const placesQuery = useQuery<PlaceGetSchema[]>({
+		queryKey: ['api/place'],
+	})
+
+	useEffect(() => {
+		if (placesQuery.data) {
+			setEvent(prev => ({
+				...prev,
+				id_place: placesQuery?.data[0].id,
+			}))
+		}
+	}, [placesQuery.data])
+
 	const navigator = useNavigate()
 	const [paymentId, setPaymentId] = useState<number>(0)
 	const [time, setTime] = useState<string>('')
@@ -59,11 +72,14 @@ export default function EventForm() {
 			dispatch({
 				type: 'setPaymentSetup',
 				payload: {
-					event_id: res.id,
-					payment_method_id: paymentId,
-					user_id: event.id_user,
-					amount: PRICE,
-					date: new Date().toISOString(),
+					data: {
+						payment_method_id: paymentId,
+						user_id: event.id_user,
+						amount: PRICE,
+						date: new Date().toISOString(),
+						payment_target: 'event',
+						payment_target_id: res.id,
+					},
 				},
 			})
 			navigator('/payments')

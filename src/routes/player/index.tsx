@@ -1,6 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
+import { useMutation, useQuery } from '@tanstack/react-query'
+import { sendQuestion } from '@/model/events'
 
 const playerData = {
 	name: 'Jan Kowalski',
@@ -22,10 +24,21 @@ export default function PlayerRoute() {
 	const [hintText, setHintText] = useState('')
 	const [isHintRequestSent, setIsHintRequestSent] = useState(false)
 
+	const userGames = useQuery({
+		queryKey: ['api/user', 1, 'games'],
+	})
+
+	console.log(userGames)
+
 	const handleHintClick = () => {
 		setIsHintVisible(!isHintVisible)
+
 		setIsHintRequestSent(false)
 	}
+
+	const questionMutation = useMutation({
+		mutationFn: sendQuestion,
+	})
 
 	const handleHintChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
 		setHintText(event.target.value)
@@ -36,6 +49,11 @@ export default function PlayerRoute() {
 		setHintText('')
 		setIsHintVisible(false)
 		setIsHintRequestSent(true)
+		questionMutation.mutate({
+			event_id: Number(2) ?? 0,
+			user_id: 1,
+			content: hintText,
+		})
 	}
 
 	return (
