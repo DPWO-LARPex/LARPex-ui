@@ -1,9 +1,29 @@
 /* eslint-disable */
 
 import { useState } from 'react'
-import { RegisterFormSchema } from '@/model/events/types'
+import { EventPostSchema, RegisterFormSchema } from '@/model/events/types'
 import { useNavigate, useParams } from 'react-router-dom'
 import Input from '@/components/Input'
+import { useQuery } from '@tanstack/react-query'
+
+type EventStatus = {
+	id: string
+	name: 'not_started' | 'ongoing' | 'paused' | 'ended'
+}
+
+const getEventStatus = (status: EventStatus['name'] | undefined) => {
+	switch (status) {
+		case 'ongoing':
+			return { children: 'W trakcie', color: 'bg-green-500' }
+		case 'paused':
+			return { children: 'Wstrzymane', color: 'bg-yellow-500' }
+		case 'ended':
+			return { children: 'Zakończone', color: 'bg-red-500' }
+		case 'not_started':
+		default:
+			return { children: 'Niezaczęte', color: 'bg-gray-500' }
+	}
+}
 
 export default function RegisterForm() {
 	const { event_id } = useParams()
@@ -11,14 +31,14 @@ export default function RegisterForm() {
 
 	const handleEventChange =
 		(field: keyof RegisterFormSchema) =>
-		(
-			e: React.ChangeEvent<
-				HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-			>,
-		) => {
-			const { value } = e.target
-			setEvent(prev => ({ ...prev, [field]: value }))
-		}
+			(
+				e: React.ChangeEvent<
+					HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+				>,
+			) => {
+				const { value } = e.target
+				setEvent(prev => ({ ...prev, [field]: value }))
+			}
 
 	const [event, setEvent] = useState<RegisterFormSchema>({
 		name: '',
@@ -57,7 +77,7 @@ export default function RegisterForm() {
 			return
 		}
 
-		const response = await fetch(`/api/event/${event_id}/join`, {
+		const response = await fetch(`/api/event/${event_id}/sign_up`, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -73,11 +93,27 @@ export default function RegisterForm() {
 		navigator('/payment')
 	}
 
+	const { data: eventData } = useQuery<EventPostSchema>({
+		queryKey: ['api/event', event_id],
+	})
+
+
+	const eventStatusQuery = useQuery<EventStatus>({
+		queryKey: ['api/event_status', eventData?.id_status],
+		enabled: Boolean(event),
+	})
+	const eventStatus = getEventStatus(eventStatusQuery.data?.name)
+
+
 	return (
 		<div className="bg-stone-900 m-12 p-12 items-center flex flex-col">
-			<h1>Wydarzenie</h1>
-			<div>
-				<div className="my-4">
+			<img className="w-full h-[200px]" src={eventData?.icon} alt={eventData?.icon} />
+			<div className="my-4 flex gap-2 p-3 bg-slate-800">
+				Status: <span>{eventStatus?.children}</span>{' '}
+				<div className={`${eventStatus?.color}  w-6 h-6 rounded-full`} />
+			</div>
+			<div className='my-4 flex flex-col gap-4'>
+				<div className="flex justify-center gap-10">
 					<Input
 						label="Imię"
 						inputProps={{
@@ -85,8 +121,6 @@ export default function RegisterForm() {
 							onChange: handleEventChange('name'),
 						}}
 					/>
-				</div>
-				<div className="my-4">
 					<Input
 						label="Nazwisko"
 						inputProps={{
@@ -95,7 +129,7 @@ export default function RegisterForm() {
 						}}
 					/>
 				</div>
-				<div className="my-4">
+				<div className="flex justify-center w-full">
 					<Input
 						label="Email"
 						inputProps={{
@@ -103,6 +137,7 @@ export default function RegisterForm() {
 							onChange: handleEventChange('email'),
 						}}
 					/>
+
 				</div>
 			</div>
 			<div>

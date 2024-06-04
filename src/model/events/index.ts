@@ -38,3 +38,24 @@ export const runEventAction = ({
 		method: 'POST',
 	})
 }
+
+export const sendEventStatusLaunch = async ({
+	id,
+}: {
+	id?: string
+}) => {
+	return client(`/api/event/${id}/launch`, {
+		method: 'POST',
+	})
+}
+
+export const sendEventStatusEnd = async ({
+	id,
+}: {
+	id?: string
+}) => {
+	return client(`/api/event/${id}/end`, {
+		method: 'POST',
+	})
+}
+
