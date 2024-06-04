@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom/client'
 
 import { Outlet, RouterProvider, createBrowserRouter } from 'react-router-dom'
 import './index.css'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 
 import { generateUrlFromQueryKey, isKeyWithIgnore } from '@/utils'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -91,7 +92,7 @@ const router = createBrowserRouter([
 					{ path: '/events/:id', element: <EventDetails /> },
 					{ path: '/events/:id/hints', element: <Hints /> },
 					{ path: '/shop', element: <Shop /> },
-					{ path: '/events/register/:event_id', element: <RegisterForm /> },
+					{ path: '/events/register/:id', element: <RegisterForm /> },
 					{ path: '/player', element: <PlayerRoute /> },
 					{ path: '/player/equipment', element: <EquipmentRoute /> },
 					{ path: '/player/state', element: <PlayerStateRoute /> },
@@ -106,6 +107,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
 		<QueryClientProvider client={queryClient}>
 			<PaymentProvider>
 				<RouterProvider router={router} />
+				<ReactQueryDevtools initialIsOpen={false} />
 			</PaymentProvider>
 		</QueryClientProvider>
 	</React.StrictMode>,
