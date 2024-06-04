@@ -106,7 +106,7 @@ export default function RegisterForm() {
 	return (
 		<div className="bg-stone-900 m-12 p-12 items-center flex flex-col">
 			<h1 className="pb-4">Wydarzenie</h1>
-			<div className="flex gap-2 p-3 bg-slate-800">
+			<div className="flex gap-2 p-3 bg-slate-800 mb-4">
 				Status: <span>{eventStatus?.children}</span>{' '}
 				<div className={`${eventStatus?.color}  w-6 h-6 rounded-full`} />
 			</div>
