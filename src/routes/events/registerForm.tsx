@@ -58,11 +58,12 @@ export default function RegisterForm() {
 			setEvent(prev => ({ ...prev, [field]: value }))
 		}
 
-	const [event, setEvent] = useState<Omit<EventFormSign, 'payment_id'>>({
+	const [event, setEvent] = useState<
+		Omit<EventFormSign, 'payment_id' | 'character_id'>
+	>({
 		firstname: '',
 		lastname: '',
 		email: '',
-		character_id: 2,
 	})
 
 	const eventStatus = getEventStatus(eventStatusQuery.data?.name)
@@ -73,7 +74,7 @@ export default function RegisterForm() {
 
 	const handleSubmit = async (payment_id: number) => {
 		eventSaveMutation.mutate({
-			event: { ...event, payment_id },
+			event: { ...event, payment_id, character_id: selectedCharacterId! },
 			id: id!,
 		})
 	}
