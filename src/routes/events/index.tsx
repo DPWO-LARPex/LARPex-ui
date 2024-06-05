@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useQuery } from '@tanstack/react-query'
 import { EventGetSchema } from '@/model/events/types'
 import { formatCurrencyAmount } from '@/utils'
@@ -15,18 +15,16 @@ export default function EventsRoute() {
 		queryKey: ['api/event'],
 	})
 
+	const navigator = useNavigate()
+
 	if (isError) throw new Error('Couldnt load events')
 	if (isLoading)
 		return <div className="flex justify-center p-80">Loading...</div>
 
-	const joinEvent = async ({
-		eventId
-	}: {
-		eventId?: number
-	}) => {
+	const joinEvent = async ({ eventId }: { eventId?: number }) => {
 		return client<{ player_id: number }>(`/api/event/${eventId}/join_event`, {
 			method: 'POST',
-			body: { player_id: userId },
+			body: { user_id: userId },
 		})
 	}
 
@@ -68,7 +66,10 @@ export default function EventsRoute() {
 						</div>
 					</div>
 
-					<div className="image w-3/5 relative group bg-cover bg-center h-64" style={{ backgroundImage: `url(${event.icon ?? ''})` }}>
+					<div
+						className="image w-3/5 relative group bg-cover bg-center h-64"
+						style={{ backgroundImage: `url(${event.icon ?? ''})` }}
+					>
 						<div className="flex gap-4 justify-center items-center h-full">
 							<Link
 								className="btn text-stone-200 bg-stone-900 hover:bg-stone-200 hover:border-stone-200 hover:text-stone-900 opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out"
@@ -90,13 +91,16 @@ export default function EventsRoute() {
 							</Link>
 							<button
 								className="btn text-stone-200 bg-stone-900 hover:bg-stone-200 hover:border-stone-200 hover:text-stone-900 opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out"
-								onClick={() => {joinEvent({ eventId: event.id }); console.log('Joining event', event.id)}}
+								onClick={() => {
+									joinEvent({ eventId: event.id })
+									navigator('/player')
+									console.log('Joining event', event.id)
+								}}
 							>
 								Dołącz
 							</button>
 						</div>
 					</div>
-
 				</div>
 			))}
 		</div>

@@ -14,6 +14,8 @@ enum Step {
 	Character,
 }
 
+const userId = 1
+
 export default function RegisterForm() {
 	const [step, setStep] = useState<Step>(Step.Form)
 	const [selectedCharacterId, setSelectedCharacterId] = useState<number | null>(
@@ -64,6 +66,7 @@ export default function RegisterForm() {
 		firstname: '',
 		lastname: '',
 		email: '',
+		user_id: userId,
 	})
 
 	const eventStatus = getEventStatus(eventStatusQuery.data?.name)

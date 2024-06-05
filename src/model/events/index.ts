@@ -45,6 +45,7 @@ export type EventFormSign = {
 	email: string
 	character_id: number
 	payment_id: number
+	user_id: number
 }
 
 export const signUp = ({ id, event }: { id: string; event: EventFormSign }) => {
