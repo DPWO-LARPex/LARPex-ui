@@ -19,7 +19,7 @@ export const sendQuestion = async (body: {
 	user_id: number
 	content: string
 }) => {
-	return client(`/api/event/question`, {
+	return client(`/api/question`, {
 		method: 'POST',
 		body: body,
 	})
