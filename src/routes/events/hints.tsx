@@ -1,12 +1,3 @@
-// const hintsData = [
-// 	{
-// 		request: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse tellus neque, interdum nec risus sed, efficitur luctus odio. Etiam sit amet viverra erat. Duis nulla orci, mattis at volutpat sagittis, ultricies in erat. Ut aliquet gravida neque, a congue enim rutrum eu."
-// 	},
-// 	{
-// 		request: "Lorem ipsum Lorem ipsum "
-// 	}
-// ]
-
 import { useQuery } from '@tanstack/react-query'
 import { useParams } from 'react-router-dom'
 type Question = {
