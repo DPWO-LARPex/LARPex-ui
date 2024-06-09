@@ -93,7 +93,7 @@ export default function EventsRoute() {
 								className="btn text-stone-200 bg-stone-900 hover:bg-stone-200 hover:border-stone-200 hover:text-stone-900 opacity-0 group-hover:opacity-100 transition duration-500 ease-in-out"
 								onClick={() => {
 									joinEvent({ eventId: event.id })
-									navigator('/player')
+									navigator(`/player/${event.id}`)
 									console.log('Joining event', event.id)
 								}}
 							>
