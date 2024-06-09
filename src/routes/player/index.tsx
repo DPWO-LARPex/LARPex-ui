@@ -1,12 +1,13 @@
 /* eslint-disable prettier/prettier */
-import { Link } from 'react-router-dom'
-import { useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import { useEffect, useState } from 'react'
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { PlayerGetSchema } from '@/model/players/types'
 import { sendQuestion } from '@/model/events'
 import { EventGetSchema } from '@/model/events/types'
 
 export default function PlayerRoute() {
+	const { id: eventId } = useParams()
 	const userId = 1
 	const [isHintVisible, setIsHintVisible] = useState(false)
 	const [hintText, setHintText] = useState('')
@@ -52,6 +53,21 @@ export default function PlayerRoute() {
 		queryKey: [`api/event/get-events-by-uid/${userId}`],
 	})
 
+
+
+	const [gamesState, setGamesState] = useState<EventGetSchema[] | undefined>(games)
+	useEffect(() => {
+		// console.log ('games', games)
+		if (eventId) {
+			// cut all elements from games array except the one with matghcing id
+			const game = games?.filter((game) => game.id === Number(eventId))
+			setGamesState(game)
+		}
+		else setGamesState(games)
+		// console.log('gamesState', gamesState)
+	}, [games])
+
+	if (!gamesState) return <div>Loading...</div>
 	return (
 		<div className="mx-32 my-12">
 			<div id="player" className="bg-stone-900 flex items-center">
@@ -73,13 +89,18 @@ export default function PlayerRoute() {
 				</div>
 			</div>
 
-			{games &&
-				games.map((game, key) => (
+			{gamesState &&
+				gamesState.map((game, key) => (
 					<div id="character" className="mt-12 pb-12 bg-stone-900" key={key}>
 						<div className="relative group">
 							<img
 								className="object-cover object-top h-64 w-full opacity-50"
-								src={game.icon}
+								src={game.icon || '/background.png'}
+								onError={(e) => {
+									const target = e.target as HTMLImageElement; //set image to default if not found
+									target.onerror = null; // prevents infinite loop if default image also fails
+									target.src = '/background.png';
+								}}
 							/>
 							<h1 className="text-white text-3xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2  ">
 								Wydarzenie
