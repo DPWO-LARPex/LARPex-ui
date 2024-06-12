@@ -27,7 +27,6 @@ export default function GameForm() {
 	const handleSubmit = (event: React.FormEvent) => {
 		event.preventDefault() // Prevent the default form submit behavior to log the form data
 		const updatedGame = { ...formData, status: 'Proposition' }
-		console.log('form sent', updatedGame)
 		mutation.mutate({ game: { ...updatedGame, user_id: 1 }, id })
 	}
 
